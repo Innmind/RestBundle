@@ -22,6 +22,9 @@ services:
     innmind_rest.server.registry:
         class: Innmind\Rest\Server\Registry
 
+    innmind_rest.server.definition_compiler:
+        class: Innmind\Rest\Server\DefinitionCompiler
+
     innmind_rest.encoder.json:
         class: Innmind\Rest\Server\Serializer\Encoder\JsonEncoder
         tags:
@@ -51,3 +54,28 @@ services:
             - @event_dipatcher
             - @innmind_rest.entity_builder
             - @innmind_rest.resource_builder
+
+    innmind_rest.server.definition_pass.access:
+        class: Innmind\Rest\Server\CompilerPass\AccessPass
+        public: false
+        tags:
+            - { name: innmind_rest.server.definition.pass }
+
+    innmind_rest.server.definition_pass.array_type:
+        class: Innmind\Rest\Server\CompilerPass\ArrayTypePass
+        public: false
+        tags:
+            - { name: innmind_rest.server.definition.pass }
+
+    innmind_rest.server.definition_pass.storage:
+        class: Innmind\Rest\Server\CompilerPass\StorageValidationPass
+        public: false
+        arguments: [@innmind_rest.server.storages]
+        tags:
+            - { name: innmind_rest.server.definition.pass }
+
+    innmind_rest.server.definition_pass.sub_Resource:
+        class: Innmind\Rest\Server\CompilerPass\SubResourcePass
+        public: false
+        tags:
+            - { name: innmind_rest.server.definition.pass }
