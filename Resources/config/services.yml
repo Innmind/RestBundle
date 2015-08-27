@@ -4,6 +4,21 @@ services:
     innmind_rest.formats:
         class: Innmind\Rest\Server\Formats
 
+    innmind_rest.entity_builder:
+        class: Innmind\Rest\Server\EntityBuilder
+        arguments:
+            - @property_accessor
+            - @event_dipatcher
+
+    innmind_rest.resource_builder:
+        class: Innmind\Rest\Server\ResourceBuilder
+        arguments:
+            - @property_accessor
+            - @event_dipatcher
+
+    innmind_rest.server.storages:
+        class: Innmind\Rest\Server\Storages
+
     innmind_rest.encoder.json:
         class: Innmind\Rest\Server\Serializer\Encoder\JsonEncoder
         tags:
@@ -15,3 +30,21 @@ services:
         tags:
             - { name: serializer.encoder }
             - { name: innmind_rest.server.format, format: form, mime: application/x-www-form-urlencoded }
+
+    innmind_rest.server.storage.abstract.neo4j:
+        class: Innmind\Rest\Server\Storage\Neo4jStorage
+        abstract: true
+        arguments:
+            - ~
+            - @event_dipatcher
+            - @innmind_rest.entity_builder
+            - @innmind_rest.resource_builder
+
+    innmind_rest.server.storage.abstract.doctrine:
+        class: Innmind\Rest\Server\Storage\DoctrineStorage
+        abstract: true
+        arguments:
+            - ~
+            - @event_dipatcher
+            - @innmind_rest.entity_builder
+            - @innmind_rest.resource_builder
