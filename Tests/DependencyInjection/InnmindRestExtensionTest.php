@@ -8,16 +8,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class InnmindRestExtensionTest extends \PHPUnit_Framework_TestCase
 {
     protected $e;
+    protected $conf;
+    protected $b;
 
     public function setUp()
     {
         $this->e = new InnmindRestExtension;
-    }
-
-    public function testProcessConfig()
-    {
-        $b = new ContainerBuilder;
-        $conf = [
+        $this->b = new ContainerBuilder;
+        $this->conf = [
             'server' => [
                 'collections' => [
                     'foo' => [
@@ -26,12 +24,14 @@ class InnmindRestExtensionTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
         ];
+    }
 
+    public function testProcessConfig()
+    {
         try {
-            $this->e->load([$conf], $b);
+            $this->e->load([$this->conf], $this->b);
             $this->assertTrue(true, 'Configuration loaded');
         } catch (\Exception $e) {
-            throw $e;
             $this->fail('Extension load should not throw an exception');
         }
     }
