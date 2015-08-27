@@ -15,7 +15,7 @@
         "issues": "https://github.com/Innmind/RestBundle/issues"
     },
     "require": {
-        "php": "~5.5",
+        "php": ">=5.5",
         "willdurand/negotiation": "v2.0.0-alpha1",
         "innmind/rest-server": "dev-develop",
         "symfony/http-kernel": "~2.7",
