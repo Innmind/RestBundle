@@ -4,5 +4,3 @@ tools:
 filter:
     excluded_paths:
         - Tests/*
-notifications:
-    slack: innmind:nAiLaAi6RU4wGEAdL6FuKdyF
