@@ -21,5 +21,8 @@ class InnmindRestExtension extends Extension
             new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.yml');
+
+        $registry = $container->getDefinition('innmind_rest.server.registry');
+        $registry->addMethodCall('load', $config['server']['collections']);
     }
 }

@@ -19,6 +19,9 @@ services:
     innmind_rest.server.storages:
         class: Innmind\Rest\Server\Storages
 
+    innmind_rest.server.registry:
+        class: Innmind\Rest\Server\Registry
+
     innmind_rest.encoder.json:
         class: Innmind\Rest\Server\Serializer\Encoder\JsonEncoder
         tags:
