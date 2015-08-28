@@ -1,4 +1,7 @@
-parameters:
+imports:
+    - { resource: serializer.yml }
+    - { resource: registry.yml }
+    - { resource: storage.yml }
 
 services:
     innmind_rest.formats:
@@ -16,66 +19,13 @@ services:
             - @property_accessor
             - @event_dipatcher
 
-    innmind_rest.server.storages:
-        class: Innmind\Rest\Server\Storages
-
-    innmind_rest.server.registry:
-        class: Innmind\Rest\Server\Registry
-
-    innmind_rest.server.definition_compiler:
-        class: Innmind\Rest\Server\DefinitionCompiler
-
-    innmind_rest.encoder.json:
-        class: Innmind\Rest\Server\Serializer\Encoder\JsonEncoder
-        tags:
-            - { name: serializer.encoder }
-            - { name: innmind_rest.server.format, format: json, mime: application/json, priority: 10 }
-
-    innmind_rest.encoder.form:
-        class: Innmind\rest\Server\Serializer\Encoder\FormEncoder
-        tags:
-            - { name: serializer.encoder }
-            - { name: innmind_rest.server.format, format: form, mime: application/x-www-form-urlencoded }
-
-    innmind_rest.server.storage.abstract.neo4j:
-        class: Innmind\Rest\Server\Storage\Neo4jStorage
-        abstract: true
+    innmind_rest.request.parser:
+        class: Innmind\Rest\Server\Request\Parser
         arguments:
-            - ~
-            - @event_dipatcher
-            - @innmind_rest.entity_builder
-            - @innmind_rest.resource_builder
+            - @serializer
+            - @innmind_rest.formats
+            - @innmind_rest.negotiator
 
-    innmind_rest.server.storage.abstract.doctrine:
-        class: Innmind\Rest\Server\Storage\DoctrineStorage
-        abstract: true
-        arguments:
-            - ~
-            - @event_dipatcher
-            - @innmind_rest.entity_builder
-            - @innmind_rest.resource_builder
-
-    innmind_rest.server.definition_pass.access:
-        class: Innmind\Rest\Server\CompilerPass\AccessPass
+    innmind_rest.negotiator:
+        class: Negotiation\Negotiator
         public: false
-        tags:
-            - { name: innmind_rest.server.definition.pass }
-
-    innmind_rest.server.definition_pass.array_type:
-        class: Innmind\Rest\Server\CompilerPass\ArrayTypePass
-        public: false
-        tags:
-            - { name: innmind_rest.server.definition.pass }
-
-    innmind_rest.server.definition_pass.storage:
-        class: Innmind\Rest\Server\CompilerPass\StorageValidationPass
-        public: false
-        arguments: [@innmind_rest.server.storages]
-        tags:
-            - { name: innmind_rest.server.definition.pass }
-
-    innmind_rest.server.definition_pass.sub_Resource:
-        class: Innmind\Rest\Server\CompilerPass\SubResourcePass
-        public: false
-        tags:
-            - { name: innmind_rest.server.definition.pass }

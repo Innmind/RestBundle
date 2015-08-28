@@ -17,7 +17,7 @@ class RegisterFormatPassTest extends \PHPUnit_Framework_TestCase
         $this->b = new ContainerBuilder;
         $loader = new Loader\YamlFileLoader(
             $this->b,
-            new FileLocator('Resources/config')
+            new FileLocator(__DIR__.'/../../../Resources/config')
         );
         $loader->load('services.yml');
         $this->p = new RegisterFormatPass;

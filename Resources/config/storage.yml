@@ -1,0 +1,21 @@
+services:
+    innmind_rest.server.storages:
+        class: Innmind\Rest\Server\Storages
+
+    innmind_rest.server.storage.abstract.neo4j:
+        class: Innmind\Rest\Server\Storage\Neo4jStorage
+        abstract: true
+        arguments:
+            - ~
+            - @event_dipatcher
+            - @innmind_rest.entity_builder
+            - @innmind_rest.resource_builder
+
+    innmind_rest.server.storage.abstract.doctrine:
+        class: Innmind\Rest\Server\Storage\DoctrineStorage
+        abstract: true
+        arguments:
+            - ~
+            - @event_dipatcher
+            - @innmind_rest.entity_builder
+            - @innmind_rest.resource_builder

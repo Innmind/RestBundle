@@ -1,0 +1,31 @@
+services:
+    innmind_rest.server.registry:
+        class: Innmind\Rest\Server\Registry
+
+    innmind_rest.server.definition_compiler:
+        class: Innmind\Rest\Server\DefinitionCompiler
+
+    innmind_rest.server.definition_pass.access:
+        class: Innmind\Rest\Server\CompilerPass\AccessPass
+        public: false
+        tags:
+            - { name: innmind_rest.server.definition.pass }
+
+    innmind_rest.server.definition_pass.array_type:
+        class: Innmind\Rest\Server\CompilerPass\ArrayTypePass
+        public: false
+        tags:
+            - { name: innmind_rest.server.definition.pass }
+
+    innmind_rest.server.definition_pass.storage:
+        class: Innmind\Rest\Server\CompilerPass\StorageValidationPass
+        public: false
+        arguments: [@innmind_rest.server.storages]
+        tags:
+            - { name: innmind_rest.server.definition.pass }
+
+    innmind_rest.server.definition_pass.sub_resource:
+        class: Innmind\Rest\Server\CompilerPass\SubResourcePass
+        public: false
+        tags:
+            - { name: innmind_rest.server.definition.pass }
