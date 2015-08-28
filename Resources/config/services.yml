@@ -1,4 +1,5 @@
 imports:
+    - { resource: 'listeners.yml' }
     - { resource: serializer.yml }
     - { resource: registry.yml }
     - { resource: storage.yml }

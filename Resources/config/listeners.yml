@@ -1,0 +1,6 @@
+services:
+    innmind_rest.listener.request:
+        class: Innmind\RestBundle\EventListener\RequestListener
+        arguments: [@innmind_rest.request.parser]
+        tags:
+            - { name: kernel.event_subscriber }
