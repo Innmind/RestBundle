@@ -13,7 +13,7 @@ use Innmind\Rest\Server\Definition\Resource as Definition;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -53,7 +53,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         $event = new GetResponseEvent(
             $this->kernel,
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernel::MASTER_REQUEST
         );
         $defaultFormat = $request->getRequestFormat();
         $this->assertSame(
@@ -78,7 +78,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         $event = new GetResponseEvent(
             $this->kernel,
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernel::MASTER_REQUEST
         );
         $defaultFormat = $request->getRequestFormat();
         $this->l->determineFormat($event);
@@ -97,7 +97,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         $event = new GetResponseEvent(
             $this->kernel,
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernel::MASTER_REQUEST
         );
         $defaultFormat = $request->getRequestFormat();
         $this->l->determineFormat($event);
@@ -113,13 +113,21 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         $event = new GetResponseEvent(
             $this->kernel,
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernel::MASTER_REQUEST
         );
         $defaultFormat = $request->getRequestFormat();
         $this->l->determineFormat($event);
         $this->assertSame(
             'json',
             $request->getRequestFormat()
+        );
+    }
+
+    public function testGetSubscribedEvents()
+    {
+        $this->assertSame(
+            [KernelEvents::REQUEST => 'determineFormat'],
+            RequestListener::getSubscribedEvents()
         );
     }
 }

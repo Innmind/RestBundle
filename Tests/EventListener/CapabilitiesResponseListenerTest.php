@@ -7,6 +7,7 @@ use Innmind\RestBundle\RouteKeys;
 use Innmind\Rest\Server\Definition\Resource as Definition;
 use Innmind\Rest\Server\Definition\Collection;
 use Innmind\Rest\Server\Event\ResponseEvent;
+use Innmind\Rest\Server\Events;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RequestContext;
@@ -74,6 +75,16 @@ class CapabilitiesResponseListenerTest extends \PHPUnit_Framework_TestCase
                 '</web/resource/>; rel="endpoint"; name="bar_foo"',
             ],
             $rs->headers->get('Link', null, false)
+        );
+    }
+
+    public function testGetSubscribedEvents()
+    {
+        $this->assertSame(
+            [
+                Events::RESPONSE => 'buildResponse',
+            ],
+            CapabilitiesResponseListener::getSubscribedEvents()
         );
     }
 }

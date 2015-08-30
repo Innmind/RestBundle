@@ -57,4 +57,17 @@ class RegisterStoragePassTest extends \PHPUnit_Framework_TestCase
             (string) $calls[0][1][1]
         );
     }
+
+    /**
+     * @expectedException LogicException
+     * @expectedExceptionMessage You must specify a name for the storage some_storage
+     */
+    public function testThrowIfNoNameSpecified()
+    {
+        $this->b
+            ->getDefinition('some_storage')
+            ->clearTags()
+            ->addTag('innmind_rest.server.storage');
+        $this->p->process($this->b);
+    }
 }
