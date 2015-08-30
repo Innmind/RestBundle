@@ -86,7 +86,7 @@ class ResourceController extends Controller
     {
         $this
             ->get('innmind_rest.server.storages')
-            ->get($data->getDefinition()->getStorage())
+            ->get($resource->getDefinition()->getStorage())
             ->update($resource, $id);
 
         return $resource;
