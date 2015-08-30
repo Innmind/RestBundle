@@ -6,6 +6,7 @@ use Innmind\Rest\Server\Definition\Resource as Definition;
 use Innmind\Rest\Server\Resource;
 use Innmind\Rest\Server\Collection;
 use Innmind\Rest\Server\Exception\ResourceNotFoundException;
+use Innmind\Rest\Server\Exception\TooManyResourcesFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ResourceController extends Controller
@@ -40,8 +41,10 @@ class ResourceController extends Controller
             ->get($definition->getStorage());
         $resources = $storage->read($definition, $id);
 
-        if ($resources->count() !== 1) {
+        if ($resources->count() < 1) {
             throw new ResourceNotFoundException;
+        } else if ($resources->count() > 1) {
+            throw new TooManyResourcesFoundException;
         }
 
         return $resources->current();

@@ -243,6 +243,14 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
             $this->c->capabilitiesAction()['innmind_rest_web_resource_options']
         );
     }
+
+    /**
+     * @expectedException Innmind\Rest\Server\Exception\ResourceNotFoundException
+     */
+    public function testThrowIfResourceNotFound()
+    {
+        $this->c->getAction($this->d, 'foo');
+    }
 }
 
 class Bar
