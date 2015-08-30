@@ -108,7 +108,7 @@ class ResourceController extends Controller
             ->delete($definition, $id);
     }
 
-     /**
+    /**
      * Format the resource description for the outside world
      * without exposing sensitive data
      *
