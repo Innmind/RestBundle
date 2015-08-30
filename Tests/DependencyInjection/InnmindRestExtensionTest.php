@@ -63,4 +63,17 @@ class InnmindRestExtensionTest extends \PHPUnit_Framework_TestCase
             $call[1]
         );
     }
+
+    public function testSetPrefix()
+    {
+        $this->conf['server']['prefix'] = '/api';
+        $this->e->load([$this->conf], $this->b);
+
+        $this->assertSame(
+            '/api',
+            $this->b
+                ->getDefinition('innmind_rest.server.route_loader')
+                ->getArgument(2)
+        );
+    }
 }

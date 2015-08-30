@@ -21,6 +21,12 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('server')
                     ->append($server->getCollectionNode())
+                    ->children()
+                        ->scalarNode('prefix')
+                            ->info('Prefix for all routes of the API')
+                            ->defaultValue(null)
+                        ->end()
+                    ->end()
                 ->end()
             ->end();
 

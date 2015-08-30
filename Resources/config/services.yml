@@ -30,3 +30,17 @@ services:
     innmind_rest.negotiator:
         class: Negotiation\Negotiator
         public: false
+
+    innmind_rest.route_loader:
+        class: Innmind\RestBundle\RouteLoader
+        arguments: [@innmind_rest.server.route_loader]
+        tags:
+            - { name: route.loader }
+
+    innmind_rest.server.route_loader:
+        class: Innmind\Rest\Server\RouteLoader
+        public: false
+        arguments:
+            - @event_dipatcher
+            - @innmind_rest.server.registry
+            - ~

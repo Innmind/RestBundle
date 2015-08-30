@@ -24,5 +24,11 @@ class InnmindRestExtension extends Extension
 
         $registry = $container->getDefinition('innmind_rest.server.registry');
         $registry->addMethodCall('load', $config['server']['collections']);
+
+        if ($config['server']['prefix'] !== null) {
+            $container
+                ->getDefinition('innmind_rest.server.route_loader')
+                ->replaceArgument(2, $config['server']['prefix']);
+        }
     }
 }
