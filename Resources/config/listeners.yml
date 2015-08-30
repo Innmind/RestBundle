@@ -12,3 +12,9 @@ services:
             - @innmind_rest.request.parser
         tags:
             - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.storage.create:
+        class: Innmind\Rest\Server\EventListener\StorageCreateListener
+        arguments: [@property_access]
+        tags:
+            - { name: kernel.event_subscriber }
