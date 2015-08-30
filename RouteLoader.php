@@ -11,6 +11,7 @@ class RouteLoader extends Loader
 {
     protected $loader;
     protected $loaded = false;
+    protected $routes;
 
     public function __construct(ServerRouteLoader $loader)
     {
@@ -58,6 +59,7 @@ class RouteLoader extends Loader
         $serverRoutes->add('innmind_rest_server_capabilities', $capabilities);
 
         $this->loaded = true;
+        $this->routes = $routes;
 
         return $serverRoutes;
     }
@@ -68,5 +70,25 @@ class RouteLoader extends Loader
     public function supports($resource, $type = null)
     {
         return $this->loader->supports($resource, $type);
+    }
+
+    /**
+     * Return all resources routes for the given method
+     *
+     * @param string $method
+     *
+     * @return array
+     */
+    public function getRoutes($method)
+    {
+        $routes = [];
+
+        foreach ($this->routes as $name => $route) {
+            if (in_array((string) $method, $route->getMethods(), true)) {
+                $routes[$name] = $route;
+            }
+        }
+
+        return $routes;
     }
 }

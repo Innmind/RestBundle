@@ -86,4 +86,14 @@ class RouteLoaderTest extends \PHPUnit_Framework_TestCase
         $this->rl->load('.');
         $this->rl->load('.');
     }
+
+    public function testGetRoutes()
+    {
+        $this->rl->load('.');
+
+        $this->assertSame(
+            1,
+            count($this->rl->getRoutes('OPTIONS'))
+        );
+    }
 }
