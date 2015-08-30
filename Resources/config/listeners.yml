@@ -16,7 +16,7 @@ services:
 
     innmind_rest.listener.storage.create:
         class: Innmind\Rest\Server\EventListener\StorageCreateListener
-        arguments: [@property_access]
+        arguments: [@property_accessor]
         tags:
             - { name: kernel.event_subscriber }
 

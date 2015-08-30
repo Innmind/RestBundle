@@ -7,7 +7,7 @@ services:
         abstract: true
         arguments:
             - ~
-            - @event_dipatcher
+            - @event_dispatcher
             - @innmind_rest.entity_builder
             - @innmind_rest.resource_builder
 
@@ -16,6 +16,6 @@ services:
         abstract: true
         arguments:
             - ~
-            - @event_dipatcher
+            - @event_dispatcher
             - @innmind_rest.entity_builder
             - @innmind_rest.resource_builder

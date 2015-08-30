@@ -12,13 +12,13 @@ services:
         class: Innmind\Rest\Server\EntityBuilder
         arguments:
             - @property_accessor
-            - @event_dipatcher
+            - @event_dispatcher
 
     innmind_rest.resource_builder:
         class: Innmind\Rest\Server\ResourceBuilder
         arguments:
             - @property_accessor
-            - @event_dipatcher
+            - @event_dispatcher
 
     innmind_rest.request.parser:
         class: Innmind\Rest\Server\Request\Parser
@@ -41,7 +41,7 @@ services:
         class: Innmind\Rest\Server\RouteLoader
         public: false
         arguments:
-            - @event_dipatcher
+            - @event_dispatcher
             - @innmind_rest.server.registry
             - ~
 
