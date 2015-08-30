@@ -77,10 +77,10 @@ class ResourceController extends Controller
     /**
      * Update a resource
      *
-     * @param Innmind\Rest\Resource $resource
+     * @param Innmind\Rest\Server\Resource $resource
      * @param string $id
      *
-     * @return Innmind\Rest\Resource
+     * @return Innmind\Rest\Server\Resource
      */
     public function updateAction(Resource $resource, $id)
     {
