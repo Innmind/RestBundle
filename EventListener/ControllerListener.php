@@ -11,6 +11,7 @@ use Innmind\Rest\Server\Validator;
 use Innmind\Rest\Server\Request\Parser;
 use Innmind\Rest\Server\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
@@ -20,11 +21,16 @@ class ControllerListener implements EventSubscriberInterface
 {
     protected $validator;
     protected $requestParser;
+    protected $dispatcher;
 
-    public function __construct(Validator $validator, Parser $parser)
-    {
+    public function __construct(
+        Validator $validator,
+        Parser $parser,
+        EventDispatcherInterface $dispatcher
+    ) {
         $this->validator = $validator;
         $this->requestParser = $parser;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -114,17 +120,16 @@ class ControllerListener implements EventSubscriberInterface
 
         $response = new Response;
         $event->setResponse($response);
-        $event
-            ->getDispatcher()
-            ->dispatch(
-                Events::RESPONSE,
-                new ResponseEvent(
-                    $request->attributes->get(RouteKeys::DEFINITION),
-                    $response,
-                    $request,
-                    $event->getControllerResult(),
-                    $request->attributes->get(RouteKeys::ACTION)
-                ));
+        $this->dispatcher->dispatch(
+            Events::RESPONSE,
+            new ResponseEvent(
+                $request->attributes->get(RouteKeys::DEFINITION),
+                $response,
+                $request,
+                $event->getControllerResult(),
+                $request->attributes->get(RouteKeys::ACTION)
+            )
+        );
     }
 
     /**
