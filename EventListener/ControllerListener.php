@@ -9,10 +9,12 @@ use Innmind\Rest\Server\Access;
 use Innmind\Rest\Server\Collection;
 use Innmind\Rest\Server\Validator;
 use Innmind\Rest\Server\Request\Parser;
+use Innmind\Rest\Server\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpFoundation\Response;
 
 class ControllerListener implements EventSubscriberInterface
 {
@@ -32,7 +34,7 @@ class ControllerListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::CONTROLLER => 'decodeRequest',
-            KernelEvents::VIEW => 'validateContent',
+            KernelEvents::VIEW => 'encodeResponse',
         ];
     }
 
@@ -90,23 +92,35 @@ class ControllerListener implements EventSubscriberInterface
     }
 
     /**
-     * Validate the content returned by the controller
+     * Validate the content returned by the controller and build the response
      *
      * @param GetResponseForControllerResultEvent $event
      *
      * @return void
      */
-    public function validateContent(GetResponseForControllerResultEvent $event)
+    public function encodeResponse(GetResponseForControllerResultEvent $event)
     {
-        if (!$event->getRequest()->attributes->has(RouteKeys::DEFINITION)) {
+        $request = $event->getRequest();
+
+        if (!$request->attributes->has(RouteKeys::DEFINITION)) {
             return;
         }
 
-        $action = $event->getRequest()->attributes->get(RouteKeys::ACTION);
+        $action = $request->attributes->get(RouteKeys::ACTION);
 
         if (in_array($action, ['index', 'get', 'create', 'update'], true)) {
             $this->validate($event->getControllerResult(), Access::READ);
         }
+
+        $response = new Response;
+        $event = new ResponseEvent(
+            $request->attributes->get(RouteKeys::DEFINITION),
+            $response,
+            $request,
+            $event->getControllerResult(),
+            $request->attributes->get(RouteKeys::ACTION)
+        );
+        $event->setResponse($response);
     }
 
     /**

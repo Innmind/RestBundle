@@ -18,3 +18,46 @@ services:
         arguments: [@property_access]
         tags:
             - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.server.response.collection:
+        class: Innmind\Rest\Server\EventListener\Response\CollectionListener
+        arguments:
+            - @router
+            - @innmind_rest.server.route_loader
+        tags:
+            - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.server.response.create:
+        class: Innmind\Rest\Server\EventListener\Response\CreateListener
+        arguments:
+            - @router
+            - @innmind_rest.server.route_loader
+        tags:
+            - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.server.response.delete:
+        class: Innmind\Rest\Server\EventListener\Response\DeleteListener
+
+    innmind_rest.listener.server.response.options:
+        class: Innmind\Rest\Server\EventListener\Response\OptionsListener
+        arguments:
+            - @router
+            - @innmind_rest.server.route_loader
+        tags:
+            - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.server.response.resource:
+        class: Innmind\Rest\Server\EventListener\Response\ResourceListener
+        arguments:
+            - @router
+            - @innmind_rest.server.route_loader
+            - @serializer
+        tags:
+            - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.server.response.capabilities:
+        class: Innmind\RestBundle\EventListener\CapabilitiesResponseListener
+        arguments:
+            - @router
+        tags:
+            - { name: kernel.event_subscriber }
