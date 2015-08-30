@@ -139,7 +139,7 @@ class ResourceController extends Controller
             $output['meta'] = $metas;
         }
 
-        return $output;
+        return ['resource' => $output];
     }
 
     /**
