@@ -59,7 +59,7 @@ class InnmindRestExtensionTest extends \PHPUnit_Framework_TestCase
         $expected = $this->conf['server']['collections'];
         $expected['foo']['resources'] = [];
         $this->assertSame(
-            $expected,
+            [['collections' => $expected]],
             $call[1]
         );
     }

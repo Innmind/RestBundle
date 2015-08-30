@@ -23,7 +23,10 @@ class InnmindRestExtension extends Extension
         $loader->load('services.yml');
 
         $registry = $container->getDefinition('innmind_rest.server.registry');
-        $registry->addMethodCall('load', $config['server']['collections']);
+        $registry->addMethodCall(
+            'load',
+            [['collections' => $config['server']['collections']]]
+        );
 
         if ($config['server']['prefix'] !== null) {
             $container
