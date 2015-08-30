@@ -40,7 +40,8 @@ class ControllerListenerTest extends \PHPUnit_Framework_TestCase
                 ),
                 (new Formats)->add('json', 'application/json', 42),
                 new Negotiator
-            )
+            ),
+            new EventDispatcher
         );
     }
 
