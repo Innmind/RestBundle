@@ -78,12 +78,18 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
             'reader' => 'yaml',
             'locations' => ['fixtures/neo4j'],
         ], true);
-        $em = EntityManagerFactory::make(
-            [
-                'host' => getenv('CI') ? 'localhost' : 'docker',
+        $conn = [];
+
+        if (!getenv('CI')) {
+            $conn = [
+                'host' => 'docker',
                 'username' => 'neo4j',
                 'password' => 'ci',
-            ],
+            ];
+        }
+
+        $em = EntityManagerFactory::make(
+            $conn,
             $conf,
             new EventDispatcher
         );
