@@ -8,6 +8,7 @@ use Innmind\Rest\Server\Exception\PayloadException;
 use Innmind\Rest\Server\Access;
 use Innmind\Rest\Server\Collection;
 use Innmind\Rest\Server\Validator;
+use Innmind\Rest\Server\Events;
 use Innmind\Rest\Server\Request\Parser;
 use Innmind\Rest\Server\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
