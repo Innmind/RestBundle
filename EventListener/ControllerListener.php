@@ -46,6 +46,11 @@ class ControllerListener implements EventSubscriberInterface
     public function decodeRequest(FilterControllerEvent $event)
     {
         $request = $event->getRequest();
+
+        if (!$request->attributes->has(RouteKeys::DEFINITION)) {
+            return;
+        }
+
         $action = $request->attributes->get(RouteKeys::ACTION);
 
         switch ($action) {
@@ -93,6 +98,10 @@ class ControllerListener implements EventSubscriberInterface
      */
     public function validateContent(GetResponseForControllerResultEvent $event)
     {
+        if (!$event->getRequest()->attributes->has(RouteKeys::DEFINITION)) {
+            return;
+        }
+
         $action = $event->getRequest()->attributes->get(RouteKeys::ACTION);
 
         if (in_array($action, ['index', 'get', 'create', 'update'], true)) {
