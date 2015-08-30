@@ -28,5 +28,8 @@
             "Innmind\\RestBundle": ""
         }
     },
-    "target-dir": "Innmind/RestBundle"
+    "target-dir": "Innmind/RestBundle",
+    "require-dev": {
+        "innmind/neo4j-onm": "~1.0"
+    }
 }
