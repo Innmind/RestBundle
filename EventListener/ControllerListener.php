@@ -114,13 +114,17 @@ class ControllerListener implements EventSubscriberInterface
 
         $response = new Response;
         $event->setResponse($response);
-        $event = new ResponseEvent(
-            $request->attributes->get(RouteKeys::DEFINITION),
-            $response,
-            $request,
-            $event->getControllerResult(),
-            $request->attributes->get(RouteKeys::ACTION)
-        );
+        $event
+            ->getDispatcher()
+            ->dispatch(
+                Events::RESPONSE,
+                new ResponseEvent(
+                    $request->attributes->get(RouteKeys::DEFINITION),
+                    $response,
+                    $request,
+                    $event->getControllerResult(),
+                    $request->attributes->get(RouteKeys::ACTION)
+                ));
     }
 
     /**
