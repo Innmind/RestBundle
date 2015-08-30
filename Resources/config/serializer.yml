@@ -6,7 +6,7 @@ services:
             - { name: innmind_rest.server.format, format: json, mime: application/json, priority: 10 }
 
     innmind_rest.encoder.form:
-        class: Innmind\rest\Server\Serializer\Encoder\FormEncoder
+        class: Innmind\Rest\Server\Serializer\Encoder\FormEncoder
         tags:
             - { name: serializer.encoder }
             - { name: innmind_rest.server.format, format: form, mime: application/x-www-form-urlencoded }
