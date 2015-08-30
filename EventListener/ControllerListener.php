@@ -113,6 +113,7 @@ class ControllerListener implements EventSubscriberInterface
         }
 
         $response = new Response;
+        $event->setResponse($response);
         $event = new ResponseEvent(
             $request->attributes->get(RouteKeys::DEFINITION),
             $response,
@@ -120,7 +121,6 @@ class ControllerListener implements EventSubscriberInterface
             $event->getControllerResult(),
             $request->attributes->get(RouteKeys::ACTION)
         );
-        $event->setResponse($response);
     }
 
     /**
