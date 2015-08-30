@@ -44,3 +44,7 @@ services:
             - @event_dipatcher
             - @innmind_rest.server.registry
             - ~
+
+    innmind_rest.server.validator:
+        class: Innmind\Rest\Server\Validator
+        arguments: [@validator]

@@ -4,3 +4,11 @@ services:
         arguments: [@innmind_rest.request.parser]
         tags:
             - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.controller:
+        class: Innmind\RestBundle\EventListener\ControllerListener
+        arguments:
+            - @innmind_rest.server.validator
+            - @innmind_rest.request.parser
+        tags:
+            - { name: kernel.event_subscriber }
