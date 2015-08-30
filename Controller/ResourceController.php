@@ -112,11 +112,11 @@ class ResourceController extends Controller
      * Format the resource description for the outside world
      * without exposing sensitive data
      *
-     * @param ResourceDefinition $definition
+     * @param Definition $definition
      *
      * @return array
      */
-    public function optionsAction(ResourceDefinition $definition)
+    public function optionsAction(Definition $definition)
     {
         $output = [
             'id' => $definition->getId(),
