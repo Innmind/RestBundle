@@ -5,6 +5,7 @@ namespace Innmind\RestBundle\Tests\EventListener;
 use Innmind\RestBundle\EventListener\PaginationListener;
 use Innmind\RestBundle\RouteKeys;
 use Innmind\Rest\Server\RouteLoader;
+use Innmind\Rest\Server\Events;
 use Innmind\Rest\Server\Definition\Resource as Definition;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,6 +105,18 @@ class PaginationListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             [0, 42],
             $this->l->getPaginationBounds()
+        );
+    }
+
+    public function testGetSubscribedEvents()
+    {
+        $this->assertSame(
+            [
+                Events::NEO4J_READ_QUERY_BUILDER => 'paginateNeo4j',
+                Events::DOCTRINE_READ_QUERY_BUILDER => 'paginateDoctrine',
+                Events::RESPONSE => 'addPageLinks',
+            ],
+            PaginationListener::getSubscribedEvents()
         );
     }
 }

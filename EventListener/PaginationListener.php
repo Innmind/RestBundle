@@ -30,11 +30,10 @@ class PaginationListener extends ServerPaginationListener
      */
     public static function getSubscribedEvents()
     {
-        return [
-            Events::NEO4J_READ_QUERY_BUILDER => 'paginateNeo4j',
-            Events::DOCTRINE_READ_QUERY_BUILDER => 'paginateDoctrine',
-            Events::RESPONSE => 'addPageLinks',
-        ];
+        $events = parent::getSubscribedEvents();
+        unset($events[Events::REQUEST]);
+
+        return $events;
     }
 
     /**
