@@ -62,3 +62,8 @@ services:
             - @router
         tags:
             - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.exception:
+        class: Innmind\RestBundle\EventListener\ExceptionListener
+        tags:
+            - { name: kernel.event_subscriber }
