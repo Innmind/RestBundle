@@ -35,21 +35,21 @@ class ExceptionListener implements EventSubscriberInterface
      */
     public function buildHttpException(GetResponseForExceptionEvent $event)
     {
-        $ex = $event->getException();
+        $exception = $event->getException();
 
         switch (true) {
-            case $ex instanceof PayloadException:
-            case $ex instanceof ValidationException:
-                $ex = new BadRequestHttpException(null, $ex);
+            case $exception instanceof PayloadException:
+            case $exception instanceof ValidationException:
+                $exception = new BadRequestHttpException(null, $exception);
                 break;
-            case $ex instanceof ResourceNotFoundException:
-                $ex = new NotFoundHttpException(null, $ex);
+            case $exception instanceof ResourceNotFoundException:
+                $exception = new NotFoundHttpException(null, $exception);
                 break;
-            case $ex instanceof TooManyResourcesFoundException:
-                $ex = new ConflictHttpException(null, $ex);
+            case $exception instanceof TooManyResourcesFoundException:
+                $exception = new ConflictHttpException(null, $exception);
                 break;
         }
 
-        $event->setException($ex);
+        $event->setException($exception);
     }
 }
