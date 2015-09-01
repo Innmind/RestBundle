@@ -40,7 +40,7 @@ class PaginationListener extends ServerPaginationListener
     /**
      * {@inheritdoc}
      */
-    protected function canPaginate()
+    public function canPaginate()
     {
         $request = $this->requestStack->getCurrentRequest();
 
@@ -70,7 +70,7 @@ class PaginationListener extends ServerPaginationListener
     /**
      * {@inheritdoc}
      */
-    protected function getPaginationBounds()
+    public function getPaginationBounds()
     {
         $request = $this->requestStack->getCurrentRequest();
         $definition = $request->attributes->get(RouteKeys::DEFINITION);
