@@ -60,6 +60,9 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
                                     'name' => [
                                         'type' => 'string',
                                         'access' => ['READ', 'UPDATE'],
+                                        'options' => [
+                                            'optional' => null,
+                                        ],
                                     ],
                                 ],
                                 'options' => [
@@ -227,6 +230,7 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
                             'type' => 'string',
                             'access' => ['READ', 'UPDATE'],
                             'variants' => [],
+                            'optional' => true,
                         ],
                     ],
                 ],
