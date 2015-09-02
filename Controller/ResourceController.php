@@ -2,6 +2,7 @@
 
 namespace Innmind\RestBundle\Controller;
 
+use Innmind\RestBundle\RouteKeys;
 use Innmind\Rest\Server\Definition\Resource as Definition;
 use Innmind\Rest\Server\Resource;
 use Innmind\Rest\Server\Collection;
@@ -157,8 +158,21 @@ class ResourceController extends Controller
      */
     public function capabilitiesAction()
     {
-        return $this
+        $routes = $this
             ->get('innmind_rest.route_loader')
             ->getRoutes('OPTIONS');
+        $exposed = [];
+
+        foreach ($routes as $name => $route) {
+            $definition = $route->getDefault(RouteKeys::DEFINITION);
+
+            if ($definition->hasOption('private')) {
+                continue;
+            }
+
+            $exposed[$name] = $route;
+        }
+
+        return $exposed;
     }
 }

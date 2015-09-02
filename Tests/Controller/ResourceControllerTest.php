@@ -69,6 +69,19 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
                                     'class' => Bar::class,
                                 ],
                             ],
+                            'priv' => [
+                                'id' => 'uuid',
+                                'storage' => 'neo4j',
+                                'properties' => [
+                                    'uuid' => [
+                                        'type' => 'string',
+                                        'access' => ['READ'],
+                                    ],
+                                ],
+                                'options' => [
+                                    'private' => null,
+                                ],
+                            ],
                         ],
                     ],
                 ],
@@ -241,10 +254,15 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testCapabilitiesAction()
     {
-        $this->assertTrue(isset($this->c->capabilitiesAction()['innmind_rest_web_resource_options']));
+        $caps = $this->c->capabilitiesAction();
+        $this->assertSame(
+            1,
+            count($caps)
+        );
+        $this->assertTrue(isset($caps['innmind_rest_web_resource_options']));
         $this->assertInstanceOf(
             Route::class,
-            $this->c->capabilitiesAction()['innmind_rest_web_resource_options']
+            $caps['innmind_rest_web_resource_options']
         );
     }
 
