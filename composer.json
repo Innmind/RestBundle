@@ -1,0 +1,35 @@
+{
+    "name": "innmind/rest-bundle",
+    "type": "symfony-bundle",
+    "description": "This Bundle wraps the innmind rest server library",
+    "keywords": ["rest", "api"],
+    "homepage": "http://github.com/Innmind/RestBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Baptiste Langlade",
+            "email": "langlade.baptiste@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Innmind/RestBundle/issues"
+    },
+    "require": {
+        "php": ">=5.5",
+        "willdurand/negotiation": "v2.0.0-alpha1",
+        "innmind/rest-server": "~1.0",
+        "symfony/http-kernel": "~2.7",
+        "symfony/dependency-injection": "~2.7",
+        "symfony/config": "~2.7",
+        "symfony/framework-bundle": "~2.7"
+    },
+    "autoload": {
+        "psr-0": {
+            "Innmind\\RestBundle": ""
+        }
+    },
+    "target-dir": "Innmind/RestBundle",
+    "require-dev": {
+        "innmind/neo4j-onm": "~1.0"
+    }
+}
