@@ -9,6 +9,7 @@ use Innmind\RestBundle\DependencyInjection\Compiler\RegisterStoragePass;
 use Innmind\RestBundle\DependencyInjection\Compiler\RegisterDefinitionCompilerPass;
 use Innmind\Rest\Server\Resource;
 use Innmind\Rest\Server\Collection;
+use Innmind\Rest\Server\Definition\Property;
 use Innmind\Neo4j\ONM\Configuration;
 use Innmind\Neo4j\ONM\EntityManagerFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -229,6 +230,12 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testOptionsAction()
     {
+        $this->d->addProperty(
+            (new Property('foo'))
+                ->setType('array')
+                ->addAccess('READ')
+                ->addOption('inner_type', 'string')
+        );
         $this->assertSame(
             [
                 'resource' => [
@@ -244,6 +251,12 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
                             'access' => ['READ', 'UPDATE'],
                             'variants' => [],
                             'optional' => true,
+                        ],
+                        'foo' => [
+                            'type' => 'array',
+                            'access' => ['READ'],
+                            'variants' => [],
+                            'inner_type' => 'string',
                         ],
                     ],
                 ],
