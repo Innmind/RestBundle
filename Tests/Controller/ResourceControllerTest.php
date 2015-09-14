@@ -118,7 +118,7 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
             )
         );
         $d->replaceArgument(0, $em);
-        $d->addTag('innmind_rest.server.storage', ['name' => 'neo4j']);
+        $d->addTag('innmind_rest.server.storage', ['alias' => 'neo4j']);
         $b
             ->addCompilerPass(new RegisterDefinitionCompilerPass)
             ->addCompilerPass(new RegisterFormatPass)

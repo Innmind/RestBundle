@@ -18,14 +18,14 @@ class RegisterStoragePass implements CompilerPassInterface
 
         foreach ($ids as $id => $tags) {
             foreach ($tags as $tag) {
-                if (!isset($tag['name'])) {
+                if (!isset($tag['alias'])) {
                     throw new \LogicException(sprintf(
-                        'You must specify a name for the storage %s',
+                        'You must specify an alias for the storage %s',
                         $id
                     ));
                 }
 
-                $def->addMethodCall('add', [$tag['name'], new Reference($id)]);
+                $def->addMethodCall('add', [$tag['alias'], new Reference($id)]);
             }
         }
     }
