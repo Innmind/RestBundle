@@ -41,13 +41,13 @@ Then specify your resources in the configuration under:
 ```yaml
 innmind_rest:
     server:
-        resources: [] #same configuration as the rest server library
+        collections: [] #same configuration as the rest server library
         prefix: /api/prefix #optional
 ```
 
 ## Storage
 
-To define a storage you can create a service having either `innmind_rest.server.storage.abstract.doctrine` or `innmind_rest.server.storage.abstract.neo4j` as parent. Then you need to specify the first argument to construct the service, being an instance of an entity manager (a doctrine or neo4j one); and flag the service with the tag `innmind_rest.server.storage`, the bundle will look for the attribute `name` on this tag to use as reference afterward (name used to specify storage on your resources).
+To define a storage you can create a service having either `innmind_rest.server.storage.abstract.doctrine` or `innmind_rest.server.storage.abstract.neo4j` as parent. Then you need to specify the first argument to construct the service, being an instance of an entity manager (a doctrine or neo4j one); and flag the service with the tag `innmind_rest.server.storage`, the bundle will look for the attribute `alias` on this tag to use as reference afterward (name used to specify storage on your resources).
 
 ## Formats
 

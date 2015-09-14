@@ -24,7 +24,7 @@ class RegisterStoragePassTest extends \PHPUnit_Framework_TestCase
         );
         $loader->load('services.yml');
         $def = new DefinitionDecorator('innmind_rest.server.storage.abstract.neo4j');
-        $def->addTag('innmind_rest.server.storage', ['name' => 'foo']);
+        $def->addTag('innmind_rest.server.storage', ['alias' => 'foo']);
         $this->b->setDefinition('some_storage', $def);
     }
 
@@ -60,7 +60,7 @@ class RegisterStoragePassTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException LogicException
-     * @expectedExceptionMessage You must specify a name for the storage some_storage
+     * @expectedExceptionMessage You must specify an alias for the storage some_storage
      */
     public function testThrowIfNoNameSpecified()
     {
