@@ -41,7 +41,7 @@ Then specify your resources in the configuration under:
 ```yaml
 innmind_rest:
     server:
-        resources: [] #same configuration as the rest server library
+        collections: [] #same configuration as the rest server library
         prefix: /api/prefix #optional
 ```
 
