@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=5.5",
-        "willdurand/negotiation": "v2.0.0-alpha1",
+        "willdurand/negotiation": "~1.4",
         "innmind/rest-server": "~1.0",
         "symfony/http-kernel": "~2.7",
         "symfony/dependency-injection": "~2.7",
