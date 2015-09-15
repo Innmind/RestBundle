@@ -33,13 +33,23 @@ class RouteLoader extends Loader
         $iterator = $routes->getIterator();
 
         foreach ($iterator as $route) {
-            $route->setDefault(
-                '_controller',
-                sprintf(
-                    'InnmindRestBundle:Resource:%s',
-                    $route->getDefault(RouteKeys::ACTION)
+            $definition = $route->getDefault(RouteKeys::DEFINITION);
+            $route
+                ->setDefault(
+                    '_controller',
+                    sprintf(
+                        'InnmindRestBundle:Resource:%s',
+                        $route->getDefault(RouteKeys::ACTION)
+                    )
                 )
-            );
+                ->setDefault(
+                    RouteKeys::DEFINITION,
+                    sprintf(
+                        '%s::%s',
+                        $definition->getCollection(),
+                        $definition
+                    )
+                );
         }
 
         $serverRoutes = new RouteCollection;
