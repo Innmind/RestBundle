@@ -4,11 +4,15 @@ namespace Innmind\RestBundle\Tests\EventListener;
 
 use Innmind\RestBundle\EventListener\RequestListener;
 use Innmind\RestBundle\RouteKeys;
+use Innmind\RestBundle\RouteLoader;
+use Innmind\Rest\Server\Registry;
+use Innmind\Rest\Server\RouteLoader as ServerRouteLoader;
 use Innmind\Rest\Server\Formats;
 use Innmind\Rest\Server\ResourceBuilder;
 use Innmind\Rest\Server\Request\Parser;
 use Innmind\Rest\Server\Serializer\Normalizer\ResourceNormalizer;
 use Innmind\Rest\Server\Serializer\Encoder\JsonEncoder;
+use Innmind\Rest\Server\Definition\Collection;
 use Innmind\Rest\Server\Definition\Resource as Definition;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -22,6 +26,7 @@ use Negotiation\Negotiator;
 class RequestListenerTest extends \PHPUnit_Framework_TestCase
 {
     protected $l;
+    protected $rl;
     protected $kernel;
 
     public function setUp()
@@ -40,7 +45,22 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
             new Negotiator
         );
 
-        $this->l = new RequestListener($parser);
+        $this->l = new RequestListener(
+            $parser,
+            $this->rl = new RouteLoader(
+                new ServerRouteLoader(
+                    new EventDispatcher,
+                    $registry = new Registry
+                )
+            ),
+            $registry
+        );
+        $registry->addCollection(
+            (new Collection('foo'))
+                ->setStorage('foo')
+                ->addResource(new Definition('foo'))
+        );
+        $this->rl->load('.');
         $this->kernel = $this
             ->getMockBuilder(HttpKernel::class)
             ->disableOriginalConstructor()
@@ -123,10 +143,26 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testComputeDefinitions()
+    {
+        $this->l->computeDefinitions();
+        foreach ($this->rl->getRoutes() as $route) {
+            $this->assertInstanceOf(
+                Definition::class,
+                $route->getDefault(RouteKeys::DEFINITION)
+            );
+        }
+    }
+
     public function testGetSubscribedEvents()
     {
         $this->assertSame(
-            [KernelEvents::REQUEST => 'determineFormat'],
+            [
+                KernelEvents::REQUEST => [
+                    ['determineFormat', 0],
+                    ['computeDefinitions', 100],
+                ],
+            ],
             RequestListener::getSubscribedEvents()
         );
     }
