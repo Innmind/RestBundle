@@ -79,12 +79,15 @@ class RouteLoader extends Loader
      *
      * @return array
      */
-    public function getRoutes($method)
+    public function getRoutes($method = null)
     {
         $routes = [];
 
         foreach ($this->routes as $name => $route) {
-            if (in_array((string) $method, $route->getMethods(), true)) {
+            if (
+                in_array((string) $method, $route->getMethods(), true) ||
+                $method === null
+            ) {
                 $routes[$name] = $route;
             }
         }

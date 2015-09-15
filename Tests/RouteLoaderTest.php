@@ -95,5 +95,9 @@ class RouteLoaderTest extends \PHPUnit_Framework_TestCase
             1,
             count($this->rl->getRoutes('OPTIONS'))
         );
+        $this->assertSame(
+            6,
+            count($this->rl->getRoutes())
+        );
     }
 }
