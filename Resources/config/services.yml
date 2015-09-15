@@ -35,7 +35,7 @@ services:
         class: Innmind\RestBundle\RouteLoader
         arguments: [@innmind_rest.server.route_loader]
         tags:
-            - { name: route.loader }
+            - { name: routing.loader }
 
     innmind_rest.server.route_loader:
         class: Innmind\Rest\Server\RouteLoader
