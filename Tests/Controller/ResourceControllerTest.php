@@ -150,7 +150,6 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
             ->getResource('resource');
         $this->c = new ResourceController;
         $this->c->setContainer($b);
-        $b->get('innmind_rest.route_loader')->load('.');
     }
 
     public function testCreateAction()

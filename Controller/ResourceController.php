@@ -163,12 +163,25 @@ class ResourceController extends Controller
     public function capabilitiesAction()
     {
         $routes = $this
-            ->get('innmind_rest.route_loader')
-            ->getRoutes('OPTIONS');
+            ->get('router')
+            ->getRouteCollection();
+        $registry = $this->get('innmind_rest.server.registry');
         $exposed = [];
 
         foreach ($routes as $name => $route) {
+            if (!$route->hasDefault(RouteKeys::DEFINITION)) {
+                continue;
+            }
+
+            if (!in_array('OPTIONS', $route->getMethods(), true)) {
+                continue;
+            }
+
             $definition = $route->getDefault(RouteKeys::DEFINITION);
+            list($collection, $resource) = explode('::', $definition);
+            $definition = $registry
+                ->getCollection($collection)
+                ->getResource($resource);
 
             if ($definition->hasOption('private')) {
                 continue;
