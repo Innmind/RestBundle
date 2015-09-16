@@ -3,7 +3,6 @@ services:
         class: Innmind\RestBundle\EventListener\RequestListener
         arguments:
             - @innmind_rest.request.parser
-            - @innmind_rest.route_loader
             - @innmind_rest.server.registry
         tags:
             - { name: kernel.event_subscriber }

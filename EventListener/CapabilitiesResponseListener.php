@@ -3,10 +3,11 @@
 namespace Innmind\RestBundle\EventListener;
 
 use Innmind\RestBundle\RouteKeys;
-use Innmind\Rest\Server\Events;
-use Innmind\Rest\Server\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class CapabilitiesResponseListener implements EventSubscriberInterface
 {
@@ -23,32 +24,34 @@ class CapabilitiesResponseListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            Events::RESPONSE => 'buildResponse',
+            KernelEvents::VIEW => 'buildResponse',
         ];
     }
 
     /**
      * Build the response to expose all routes of the API
      *
-     * @param ResponseEvent $event
+     * @param GetResponseForControllerResultEvent $event
      *
      * @return void
      */
-    public function buildResponse(ResponseEvent $event)
+    public function buildResponse(GetResponseForControllerResultEvent $event)
     {
-        if ($event->getAction() !== 'capabilities') {
+        $request = $event->getRequest();
+
+        if (
+            !$request->attributes->has(RouteKeys::ACTION) ||
+            $request->attributes->get(RouteKeys::ACTION) !== 'capabilities'
+        ) {
             return;
         }
 
-        $routes = $event->getContent();
-        $response = $event->getResponse();
-        $definition = $event
-            ->getRequest()
-            ->attributes
-            ->get(RouteKeys::DEFINITION);
+        $routes = $event->getControllerResult();
+        $response = new Response;
         $links = $response->headers->get('Link', null, false);
 
         foreach ($routes as $name => $route) {
+            $definition = $route->getDefault(RouteKeys::DEFINITION);
             $links[] = sprintf(
                 '<%s>; rel="endpoint"; name="%s_%s"',
                 $this->urlGenerator->generate($name),
@@ -58,5 +61,6 @@ class CapabilitiesResponseListener implements EventSubscriberInterface
         }
 
         $response->headers->add(['Link' => $links]);
+        $event->setResponse($response);
     }
 }

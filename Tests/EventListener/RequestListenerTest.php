@@ -26,7 +26,6 @@ use Negotiation\Negotiator;
 class RequestListenerTest extends \PHPUnit_Framework_TestCase
 {
     protected $l;
-    protected $rl;
     protected $kernel;
 
     public function setUp()
@@ -47,20 +46,13 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->l = new RequestListener(
             $parser,
-            $this->rl = new RouteLoader(
-                new ServerRouteLoader(
-                    new EventDispatcher,
-                    $registry = new Registry
-                )
-            ),
-            $registry
+            $registry = new Registry
         );
         $registry->addCollection(
             (new Collection('foo'))
                 ->setStorage('foo')
                 ->addResource(new Definition('foo'))
         );
-        $this->rl->load('.');
         $this->kernel = $this
             ->getMockBuilder(HttpKernel::class)
             ->disableOriginalConstructor()
@@ -143,15 +135,39 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testComputeDefinitions()
+    public function testComputeDefinition()
     {
-        $this->l->computeDefinitions();
-        foreach ($this->rl->getRoutes() as $route) {
-            $this->assertInstanceOf(
-                Definition::class,
-                $route->getDefault(RouteKeys::DEFINITION)
-            );
-        }
+        $request = new Request;
+        $request->attributes->set(RouteKeys::DEFINITION, 'foo::foo');
+        $event = new GetResponseEvent(
+            $this->kernel,
+            $request,
+            HttpKernel::MASTER_REQUEST
+        );
+        $this->l->computeDefinition($event);
+        $this->assertInstanceOf(
+            Definition::class,
+            $request->attributes->get(RouteKeys::DEFINITION)
+        );
+
+        $request = new Request;
+        $event = new GetResponseEvent(
+            $this->kernel,
+            $request,
+            HttpKernel::MASTER_REQUEST
+        );
+        $this->l->computeDefinition($event);
+        $this->assertFalse($request->attributes->has(RouteKeys::DEFINITION));
+
+        $request->attributes->set(
+            RouteKeys::DEFINITION,
+            $d = new Definition('foo')
+        );
+        $this->l->computeDefinition($event);
+        $this->assertSame(
+            $d,
+            $request->attributes->get(RouteKeys::DEFINITION)
+        );
     }
 
     public function testGetSubscribedEvents()
@@ -160,7 +176,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
             [
                 KernelEvents::REQUEST => [
                     ['determineFormat', 0],
-                    ['computeDefinitions', 100],
+                    ['computeDefinition', 20],
                 ],
             ],
             RequestListener::getSubscribedEvents()

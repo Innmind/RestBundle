@@ -81,27 +81,4 @@ class RouteLoader extends Loader
     {
         return $this->loader->supports($resource, $type);
     }
-
-    /**
-     * Return all resources routes for the given method
-     *
-     * @param string $method
-     *
-     * @return array
-     */
-    public function getRoutes($method = null)
-    {
-        $routes = [];
-
-        foreach ($this->routes as $name => $route) {
-            if (
-                in_array((string) $method, $route->getMethods(), true) ||
-                $method === null
-            ) {
-                $routes[$name] = $route;
-            }
-        }
-
-        return $routes;
-    }
 }
