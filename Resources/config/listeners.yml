@@ -62,6 +62,7 @@ services:
         class: Innmind\RestBundle\EventListener\CapabilitiesResponseListener
         arguments:
             - @router
+            - @innmind_rest.server.registry
         tags:
             - { name: kernel.event_subscriber }
 

@@ -3,6 +3,7 @@
 namespace Innmind\RestBundle\EventListener;
 
 use Innmind\RestBundle\RouteKeys;
+use Innmind\Rest\Server\Registry;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -12,10 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 class CapabilitiesResponseListener implements EventSubscriberInterface
 {
     protected $urlGenerator;
+    protected $registry;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        UrlGeneratorInterface $urlGenerator,
+        Registry $registry
+    ) {
         $this->urlGenerator = $urlGenerator;
+        $this->registry = $registry;
     }
 
     /**
@@ -52,6 +57,12 @@ class CapabilitiesResponseListener implements EventSubscriberInterface
 
         foreach ($routes as $name => $route) {
             $definition = $route->getDefault(RouteKeys::DEFINITION);
+            list($collection, $resource) = explode('::', $definition);
+            $definition = $this
+                ->registry
+                ->getCollection($collection)
+                ->getResource($resource);
+
             $links[] = sprintf(
                 '<%s>; rel="endpoint"; name="%s_%s"',
                 $this->urlGenerator->generate($name),
