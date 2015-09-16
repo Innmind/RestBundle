@@ -6,6 +6,7 @@ use Innmind\RestBundle\EventListener\CapabilitiesResponseListener;
 use Innmind\RestBundle\RouteKeys;
 use Innmind\Rest\Server\Definition\Resource as Definition;
 use Innmind\Rest\Server\Definition\Collection;
+use Innmind\Rest\Server\Registry;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RequestContext;
@@ -21,6 +22,7 @@ class CapabilitiesResponseListenerTest extends \PHPUnit_Framework_TestCase
     protected $l;
     protected $r;
     protected $k;
+    protected $d;
 
     public function setUp()
     {
@@ -28,17 +30,22 @@ class CapabilitiesResponseListenerTest extends \PHPUnit_Framework_TestCase
             new UrlGenerator(
                 $c = new RouteCollection,
                 new RequestContext
-            )
+            ),
+            $registry = new Registry
         );
 
+        $collection = new Collection('bar');
         $def = new Definition('foo');
-        $def->setCollection(new Collection('bar'));
-        $this->r = new Route('/web/resource/', [RouteKeys::DEFINITION => $def]);
+        $def->setStorage('foo');
+        $collection->addResource($def);
+        $registry->addCollection($collection);
+        $this->r = new Route('/web/resource/', [RouteKeys::DEFINITION => 'bar::foo']);
         $c->add('res', $this->r);
         $this->k = $this
             ->getMockBuilder(HttpKernel::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $this->d = $def;
     }
 
     public function testDoesntHandle()
@@ -68,7 +75,7 @@ class CapabilitiesResponseListenerTest extends \PHPUnit_Framework_TestCase
         );
         $request->attributes->set(
             RouteKeys::DEFINITION,
-            $this->r->getDefault(RouteKeys::DEFINITION)
+            $this->d
         );
         $request->attributes->set(RouteKeys::ACTION, 'capabilities');
         $this->l->buildResponse($event);

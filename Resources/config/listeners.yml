@@ -55,6 +55,7 @@ services:
             - @router
             - @innmind_rest.server.route_loader
             - @serializer
+            - @innmind_rest.formats
         tags:
             - { name: kernel.event_subscriber }
 
@@ -62,6 +63,7 @@ services:
         class: Innmind\RestBundle\EventListener\CapabilitiesResponseListener
         arguments:
             - @router
+            - @innmind_rest.server.registry
         tags:
             - { name: kernel.event_subscriber }
 
