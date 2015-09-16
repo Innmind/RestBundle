@@ -27,6 +27,7 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Validator\Validator;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\SerializerPass;
 
 class ResourceControllerTest extends \PHPUnit_Framework_TestCase
@@ -141,6 +142,7 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
         $router->addArgument('.');
         $b->setDefinition('serializer', new Definition(Serializer::class));
         $b->setDefinition('validator', $v = new Definition(Validator::class));
+        $b->setDefinition('request_stack', new Definition(RequestStack::class));
         $v->setFactory([Validation::class, 'createValidator']);
         $b->compile();
         $this->b = $b;

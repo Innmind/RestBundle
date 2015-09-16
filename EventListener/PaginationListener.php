@@ -4,7 +4,6 @@ namespace Innmind\RestBundle\EventListener;
 
 use Innmind\RestBundle\RouteKeys;
 use Innmind\Rest\Server\Events;
-use Innmind\Rest\Server\RouteLoader;
 use Innmind\Rest\Server\EventListener\PaginationListener as ServerPaginationListener;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -13,16 +12,13 @@ class PaginationListener extends ServerPaginationListener
 {
     protected $requestStack;
     protected $urlGenerator;
-    protected $routeLoader;
 
     public function __construct(
         RequestStack $requestStack,
-        UrlGeneratorInterface $urlGenerator,
-        RouteLoader $routeLoader
+        UrlGeneratorInterface $urlGenerator
     ) {
         $this->requestStack = $requestStack;
         $this->urlGenerator = $urlGenerator;
-        $this->routeLoader = $routeLoader;
     }
 
     /**
