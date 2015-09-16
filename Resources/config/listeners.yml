@@ -55,6 +55,7 @@ services:
             - @router
             - @innmind_rest.server.route_loader
             - @serializer
+            - @innmind_rest.formats
         tags:
             - { name: kernel.event_subscriber }
 
