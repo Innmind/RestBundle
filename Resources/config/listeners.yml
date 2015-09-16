@@ -71,3 +71,11 @@ services:
         class: Innmind\RestBundle\EventListener\ExceptionListener
         tags:
             - { name: kernel.event_subscriber }
+
+    innmind_rest.listener.pagination:
+        class: Innmind\RestBundle\EventListener\PaginationListener
+        arguments:
+            - @request_stack
+            - @router
+        tags:
+            - { name: kernel.event_subscriber }
