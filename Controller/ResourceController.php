@@ -182,6 +182,7 @@ class ResourceController extends Controller
             $definition = $registry
                 ->getCollection($collection)
                 ->getResource($resource);
+            $route->setDefault(RouteKeys::DEFINITION, $definition);
 
             if ($definition->hasOption('private')) {
                 continue;
