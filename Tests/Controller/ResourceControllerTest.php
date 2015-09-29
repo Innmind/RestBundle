@@ -28,6 +28,7 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Validator\Validator;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\SerializerPass;
 
 class ResourceControllerTest extends \PHPUnit_Framework_TestCase
@@ -152,6 +153,7 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
             ->getResource('resource');
         $this->c = new ResourceController;
         $this->c->setContainer($b);
+        $b->get('request_stack')->push(new Request);
     }
 
     public function testCreateAction()
