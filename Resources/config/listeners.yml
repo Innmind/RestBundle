@@ -73,9 +73,11 @@ services:
             - { name: kernel.event_subscriber }
 
     innmind_rest.listener.pagination:
-        class: Innmind\RestBundle\EventListener\PaginationListener
+        class: Innmind\Rest\Server\EventListener\PaginationListener
         arguments:
             - @request_stack
             - @router
+            - @innmind_rest.server.route_finder
+            - @innmind_rest.server.paginator
         tags:
             - { name: kernel.event_subscriber }
