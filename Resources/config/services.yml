@@ -48,3 +48,11 @@ services:
     innmind_rest.server.validator:
         class: Innmind\Rest\Server\Validator
         arguments: [@validator]
+
+    innmind_rest.server.route_finder:
+        class: Innmind\Rest\Server\Routing\RouteFinder
+        public: false
+
+    innmind_rest.server.paginator:
+        class: Innmind\Rest\Server\Paginator
+        public: false
