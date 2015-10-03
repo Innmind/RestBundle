@@ -1,39 +1,42 @@
 <?php
 
-namespace Innmind\RestBundle\Client\Server;
+namespace Innmind\RestBundle\Client;
 
-use Innmind\RestBundle\Client\Server\Cache\FileCache;
-use Innmind\RestBundle\Client\LoaderFactory;
 use Innmind\Rest\Client\Definition\Loader;
+use Innmind\Rest\Client\Definition\Builder;
+use Innmind\Rest\Client\Cache\FileCache;
 use Innmind\UrlResolver\ResolverInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 use GuzzleHttp\Client as Http;
 
-class CapabilitiesFactory
+class LoaderFactory
 {
     protected $instances = [];
     protected $cacheDir;
     protected $resolver;
+    protected $builder;
     protected $http;
-    protected $loader;
+    protected $validator;
 
     public function __construct(
         $cacheDir,
         ResolverInterface $resolver,
         Http $http,
-        LoaderFactory $loader
+        ValidatorInterface $validator
     ) {
         $this->cacheDir = (string) $cacheDir;
         $this->resolver = $resolver;
         $this->http = $http;
-        $this->loader = $loader;
+        $this->validator = $validator;
+        $this->builder = new Builder;
     }
 
     /**
-     * Make a capabilities object for a given host
+     * Create a loader for a given host
      *
      * @param string $host
      *
-     * @return Capabilities
+     * @return Loader
      */
     public function make($host)
     {
@@ -49,15 +52,15 @@ class CapabilitiesFactory
             rtrim($this->cacheDir, '/'),
             $hash
         );
-        $instance = new Capabilities(
-            $host,
-            $this->http,
+        $instance = new Loader(
             new FileCache(sprintf(
-                '%s/capabilities.php',
+                '%s/definitions.php',
                 $dir
             )),
-            $this->loader->make($host),
-            $this->resolver
+            $this->resolver,
+            $this->builder,
+            $this->http,
+            $this->validator
         );
         $this->instances[$hash] = $instance;
 

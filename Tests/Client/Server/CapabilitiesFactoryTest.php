@@ -4,6 +4,7 @@ namespace Innmind\RestBundle\Tests\Client\Server;
 
 use Innmind\RestBundle\Client\Server\CapabilitiesFactory;
 use Innmind\RestBundle\Client\Server\Capabilities;
+use Innmind\RestBundle\Client\LoaderFactory;
 use Innmind\UrlResolver\UrlResolver;
 use Symfony\Component\Validator\Validation;
 use GuzzleHttp\Client as Http;
@@ -16,9 +17,14 @@ class CapabilitiesFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->f = new CapabilitiesFactory(
             sys_get_temp_dir() . '/cap_factory/',
-            new UrlResolver([]),
-            new Http,
-            Validation::createValidator()
+            $r = new UrlResolver([]),
+            $h = new Http,
+            new LoaderFactory(
+                sys_get_temp_dir() . '/cap_factory/',
+                $r,
+                $h,
+                Validation::createValidator()
+            )
         );
     }
 
