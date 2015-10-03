@@ -4,7 +4,6 @@ namespace Innmind\RestBundle\Client\Server;
 
 use Innmind\RestBundle\Client\Server\Cache\FileCache;
 use Innmind\RestBundle\Client\LoaderFactory;
-use Innmind\Rest\Client\Definition\Loader;
 use Innmind\UrlResolver\ResolverInterface;
 use GuzzleHttp\Client as Http;
 
