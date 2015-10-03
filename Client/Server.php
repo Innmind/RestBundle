@@ -51,7 +51,7 @@ class Server
     public function create($name, Resource $resource)
     {
         $this->client->create(
-            $this->capabilities->get($name),
+            $this->capabilities->get($name)->getUrl(),
             $resource
         );
 
