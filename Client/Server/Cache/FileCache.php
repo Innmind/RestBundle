@@ -7,15 +7,15 @@ use Symfony\Component\Filesystem\Filesystem;
 class FileCache extends InMemoryCache
 {
     protected $filePath;
-    protected $fs;
+    protected $filesystem;
     protected $isFresh = true;
 
     public function __construct($filePath)
     {
         $this->filePath = (string) $filePath;
-        $this->fs = new Filesystem;
+        $this->filesystem = new Filesystem;
 
-        if ($this->fs->exists($this->filePath)) {
+        if ($this->filesystem->exists($this->filePath)) {
             $this->data = require $this->filePath;
             $this->isFresh = false;
         }
@@ -44,6 +44,6 @@ return $dump;
 
 PHP;
 
-        $this->fs->dumpFile($this->filePath, $code);
+        $this->filesystem->dumpFile($this->filePath, $code);
     }
 }
