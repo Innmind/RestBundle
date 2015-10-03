@@ -1,0 +1,40 @@
+services:
+    innmind_rest.client:
+        class: Innmind\RestBundle\Client
+        arguments: [@innmind_rest.client.server_factory]
+
+    innmind_rest.client.server_factory:
+        class: Innmind\RestBundle\Client\ServerFactory
+        arguments:
+            - @innmind_rest.client.resolver
+            - @innmind_rest.client.capabilities_factory
+            - @innmind_rest.client.loader_factory
+            - @serializer
+            - @validator
+            - @event_dispatcher
+            - @innmind_rest.client.http
+
+    innmind_rest.client.capabilities_factory:
+        class: Innmind\RestBundle\Client\Server\CapabilitiesFactory
+        arguments:
+            - %kernel.cache_dir%/innmind/rest/
+            - @innmind_rest.client.resolver
+            - @innmind_rest.client.http
+            - @innmind_rest.client.loader_factory
+
+    innmind_rest.client.loader_factory:
+        class: Innmind\RestBundle\Client\LoaderFactory
+        arguments:
+            - %kernel.cache_dir%/innmind/rest/
+            - @innmind_rest.client.resolver
+            - @innmind_rest.client.http
+            - @validator
+
+    innmind_rest.client.http:
+        class: GuzzleHttp\Client
+        public: false
+
+    innmind_rest.client.resolver:
+        class: Innmind\UrlResolver\UrlResolver
+        arguments: [['http', 'https']]
+        public: false
