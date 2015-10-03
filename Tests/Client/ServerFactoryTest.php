@@ -52,8 +52,5 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Server::class, $server);
         $this->assertSame($server, $this->f->make('http://xn--serv-factory.com'));
-
-        unset($server);
-        $this->assertTrue(file_exists(sys_get_temp_dir() . '/loader_factory/'. md5('http://xn--loader.com/')));
     }
 }
