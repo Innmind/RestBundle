@@ -12,7 +12,7 @@ class Capabilities
 {
     protected $host;
     protected $http;
-    protected $cahe;
+    protected $cache;
     protected $loader;
     protected $resolver;
 
