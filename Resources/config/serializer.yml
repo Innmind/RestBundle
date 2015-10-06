@@ -16,3 +16,35 @@ services:
         arguments: [@innmind_rest.resource_builder]
         tags:
             - { name: serializer.normalizer }
+
+    innmind_rest.normalizer.client.collection:
+        class: Innmind\Rest\Client\Serializer\Normalizer\CollectionNormalizer
+        tags:
+            - { name: serializer.normalizer }
+
+    innmind_rest.normalizer.client.resource:
+        class: Innmind\Rest\Client\Serializer\Normalizer\ResourceNormalizer
+        tags:
+            - { name: serializer.normalizer }
+
+    innmind_rest.encoder.client.response:
+        class: Innmind\Rest\Client\Serializer\Encoder\ResponseEncoder
+        arguments: [@innmind_rest.client.decoder.delegation]
+        tags:
+            - { name: serializer.encoder }
+
+    innmind_rest.client.decoder.delegation:
+        class: Innmind\Rest\Client\Server\Decoder\DelegationDecoder
+        arguments: [[]]
+
+    innmind_rest.client.decoder.collection:
+        class: Innmind\Rest\Client\Server\Decoder\CollectionDecoder
+        arguments: [@innmind_rest.client.resolver]
+        tags:
+            - { name: innmind_rest.client.decoder }
+
+    innmind_rest.client.decoder.resource:
+        class: Innmind\Rest\Client\Server\Decoder\ResourceDecoder
+        arguments: [@innmind_rest.client.resolver]
+        tags:
+            - { name: innmind_rest.client.decoder }

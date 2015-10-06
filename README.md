@@ -45,11 +45,12 @@ innmind_rest:
         prefix: /api/prefix #optional
 ```
 
-## Storage
+## Server
+### Storage
 
 To define a storage you can create a service having either `innmind_rest.server.storage.abstract.doctrine` or `innmind_rest.server.storage.abstract.neo4j` as parent. Then you need to specify the first argument to construct the service, being an instance of an entity manager (a doctrine or neo4j one); and flag the service with the tag `innmind_rest.server.storage`, the bundle will look for the attribute `alias` on this tag to use as reference afterward (name used to specify storage on your resources).
 
-## Formats
+### Formats
 
 As allowed formats are handled via encoders, you declare new ones with a tag on the encoder service you want to add.
 
@@ -63,10 +64,37 @@ innmind_rest.encoder.json:
         - { name: innmind_rest.server.format, format: json, mime: application/json, priority: 10 }
 ```
 
-## Events
+### Events
 
 In most cases the only event you'll want to alter will be [`Events::RESPONSE`](https://github.com/Innmind/rest-server/blob/master/Events.php#L18) or `Events::{STORAGE}_READ_QUERY_BUILDER` (`STORAGE` can be `DOCTRINE` or `NEO4J`) to add restriction on the query like for example the user being connected.
 
 You can look at [`Events.php`](https://github.com/Innmind/rest-server/blob/master/Events.php) to review all the events you have at your disposition.
 
 **Note**: the event `REQUEST` is not used in this bundle, instead it relies on the symfony `KernelEvents::REQUEST`.
+
+## Client
+
+To consume an API you need to use the `innmind_rest.client` service. Examples of usages:
+
+```php
+use Innmind\Rest\Client\Resource;
+
+$client = $container->get('innmind_rest.client');
+
+$resources = $client->server('http://example.com')->read('some_resource');
+$resource = $client->server('http://example.com')->read('some_resource', 42);
+
+$toCreate = new Resource;
+$toCreate->set('someProperty', 'value');
+$client->server('http://example.com')->create('some_resource', $toCreate);
+
+$toUpdate = new Resource;
+$toUpdate
+    ->set('all', 'properties')
+    ->set('must', 'be set');
+$client->server('http://example.com')->update('some_resource', 42, $toUpdate);
+
+$client->server('http://example.com')->remove('some_resource', 42);
+```
+
+You can use `$server->resources()` to view all the resources exposed by the server API; it will return an associative array with the names as keys and the definitions as values.
