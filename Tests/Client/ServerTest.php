@@ -74,7 +74,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $resources = $this->s->resources();
 
         $this->assertSame(1, count($resources));
-        $this->assertInstanceOf(Definition::class, $resources[0]);
+        $this->assertInstanceOf(Definition::class, $resources['foo']);
     }
 
     public function testRead()

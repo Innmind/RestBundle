@@ -106,7 +106,7 @@ class Server
         $definitions = [];
 
         foreach ($keys as $key) {
-            $definitions[] = $this->capabilities->get($key);
+            $definitions[$key] = $this->capabilities->get($key);
         }
 
         return $definitions;
