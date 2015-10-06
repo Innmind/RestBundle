@@ -145,6 +145,7 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
         $b->setDefinition('validator', $v = new Definition(Validator::class));
         $b->setDefinition('request_stack', new Definition(RequestStack::class));
         $v->setFactory([Validation::class, 'createValidator']);
+        $b->setParameter('kernel.cache_dir', sys_get_temp_dir());
         $b->compile();
         $this->b = $b;
         $this->d = $b

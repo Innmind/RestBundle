@@ -2,6 +2,7 @@
 
 namespace Innmind\RestBundle;
 
+use Innmind\RestBundle\DependencyInjection\Compiler\RegisterClientDecodersPass;
 use Innmind\RestBundle\DependencyInjection\Compiler\RegisterFormatPass;
 use Innmind\RestBundle\DependencyInjection\Compiler\RegisterStoragePass;
 use Innmind\RestBundle\DependencyInjection\Compiler\RegisterDefinitionCompilerPass;
@@ -18,6 +19,7 @@ class InnmindRestBundle extends Bundle
         parent::build($container);
 
         $container
+            ->addCompilerPass(new RegisterClientDecodersPass)
             ->addCompilerPass(new RegisterFormatPass)
             ->addCompilerPass(new RegisterStoragePass)
             ->addCompilerPass(new RegisterDefinitionCompilerPass);

@@ -3,6 +3,7 @@ imports:
     - { resource: serializer.yml }
     - { resource: registry.yml }
     - { resource: storage.yml }
+    - { resource: client.yml }
 
 services:
     innmind_rest.formats:

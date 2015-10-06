@@ -16,7 +16,7 @@ class InnmindRestBundleTest extends \PHPUnit_Framework_TestCase
         );
         $conf = $c->getCompiler()->getPassConfig();
         $this->assertSame(
-            3,
+            4,
             count($conf->getBeforeOptimizationPasses())
         );
     }
