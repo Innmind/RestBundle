@@ -26,7 +26,7 @@ services:
         class: Innmind\Rest\Server\EventListener\Response\CollectionListener
         arguments:
             - @router
-            - @innmind_rest.server.route_loader
+            - @innmind_rest.server.route_finder
         tags:
             - { name: kernel.event_subscriber }
 
@@ -34,7 +34,7 @@ services:
         class: Innmind\Rest\Server\EventListener\Response\CreateListener
         arguments:
             - @router
-            - @innmind_rest.server.route_loader
+            - @innmind_rest.server.route_finder
         tags:
             - { name: kernel.event_subscriber }
 
@@ -45,7 +45,7 @@ services:
         class: Innmind\Rest\Server\EventListener\Response\OptionsListener
         arguments:
             - @router
-            - @innmind_rest.server.route_loader
+            - @innmind_rest.server.route_finder
         tags:
             - { name: kernel.event_subscriber }
 
@@ -53,7 +53,7 @@ services:
         class: Innmind\Rest\Server\EventListener\Response\ResourceListener
         arguments:
             - @router
-            - @innmind_rest.server.route_loader
+            - @innmind_rest.server.route_finder
             - @serializer
             - @innmind_rest.formats
         tags:
