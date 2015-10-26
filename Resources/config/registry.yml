@@ -1,6 +1,7 @@
 services:
     innmind_rest.server.registry:
         class: Innmind\Rest\Server\Registry
+        configurator: ["@innmind_rest.server.definition_compiler", process]
 
     innmind_rest.server.definition_compiler:
         class: Innmind\Rest\Server\DefinitionCompiler
