@@ -1,0 +1,54 @@
+imports:
+    - { resource: listeners.yml }
+    - { resource: registry.yml }
+    - { resource: routing.yml }
+    - { resource: storage.yml }
+    - { resource: serializer.yml }
+
+parameters:
+    innmind_rest.server.paginator.class: Innmind\Rest\Server\Paginator
+
+services:
+    innmind_rest.server.storages:
+        class: Innmind\Rest\Server\Storages
+
+    innmind_rest.server.request_parser:
+        class: Innmind\Rest\Server\Request\Parser
+        arguments:
+            - @serializer
+            - @innmind_rest.server.formats
+            - @innmind_rest.server.negotiator
+
+    innmind_rest.server.formats:
+        class: Innmind\Rest\Server\Formats
+
+    innmind_rest.server.negotiator:
+        class: Negotiation\Negotiator
+        public: false
+
+    innmind_rest.server.entity_builder:
+        class: Innmind\Rest\Server\EntityBuilder
+        arguments:
+            - @property_accessor
+            - @event_dispatcher
+
+    innmind_rest.server.resource_builder:
+        class: Innmind\Rest\Server\ResourceBuilder
+        arguments:
+            - @property_accessor
+            - @event_dispatcher
+
+    innmind_rest.server.controller:
+        class: Innmind\RestBundle\Controller\ResourceController
+        arguments:
+            - @innmind_rest.server.storages
+            - @router
+            - @innmind_rest.server.registry
+
+    innmind_rest.server.validator:
+        class: Innmind\Rest\Server\Validator
+        arguments:
+            - @validator
+
+    innmind_rest.server.paginator:
+        class: %innmind_rest.server.paginator.class%

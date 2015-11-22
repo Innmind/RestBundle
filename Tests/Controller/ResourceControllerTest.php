@@ -4,10 +4,10 @@ namespace Innmind\RestBundle\Tests\Controller;
 
 use Innmind\RestBundle\Controller\ResourceController;
 use Innmind\RestBundle\DependencyInjection\InnmindRestExtension;
-use Innmind\RestBundle\DependencyInjection\Compiler\RegisterFormatPass;
-use Innmind\RestBundle\DependencyInjection\Compiler\RegisterStoragePass;
-use Innmind\RestBundle\DependencyInjection\Compiler\RegisterDefinitionCompilerPass;
-use Innmind\Rest\Server\Resource;
+use Innmind\Rest\Server\DependencyInjection\Compiler\RegisterFormatPass;
+use Innmind\Rest\Server\DependencyInjection\Compiler\RegisterStoragePass;
+use Innmind\Rest\Server\DependencyInjection\Compiler\RegisterDefinitionCompilerPass;
+use Innmind\Rest\Server\HttpResource;
 use Innmind\Rest\Server\Collection;
 use Innmind\Rest\Server\Definition\Property;
 use Innmind\Neo4j\ONM\Configuration;
@@ -30,6 +30,7 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\SerializerPass;
+use Psr\Log\NullLogger;
 
 class ResourceControllerTest extends \PHPUnit_Framework_TestCase
 {
@@ -122,9 +123,18 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
         $d->replaceArgument(0, $em);
         $d->addTag('innmind_rest.server.storage', ['alias' => 'neo4j']);
         $b
-            ->addCompilerPass(new RegisterDefinitionCompilerPass)
-            ->addCompilerPass(new RegisterFormatPass)
-            ->addCompilerPass(new RegisterStoragePass)
+            ->addCompilerPass(new RegisterDefinitionCompilerPass(
+                'innmind_rest.server.definition_compiler',
+                'innmind_rest.server.definition_pass'
+            ))
+            ->addCompilerPass(new RegisterFormatPass(
+                'innmind_rest.server.formats',
+                'innmind_rest.server.format'
+            ))
+            ->addCompilerPass(new RegisterStoragePass(
+                'innmind_rest.server.storages',
+                'innmind_rest.server.storage'
+            ))
             ->addCompilerPass(new RegisterListenersPass);
         $b->setDefinition(
             'event_dispatcher',
@@ -139,11 +149,12 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
             'router',
             $router = new Definition(Router::class)
         );
-        $router->addArgument(new Reference('innmind_rest.route_loader'));
+        $router->addArgument(new Reference('innmind_rest.server.route_loader'));
         $router->addArgument('.');
         $b->setDefinition('serializer', new Definition(Serializer::class));
         $b->setDefinition('validator', $v = new Definition(Validator::class));
         $b->setDefinition('request_stack', new Definition(RequestStack::class));
+        $b->setDefinition('logger', new Definition(NullLogger::class));
         $v->setFactory([Validation::class, 'createValidator']);
         $b->setParameter('kernel.cache_dir', sys_get_temp_dir());
         $b->compile();
@@ -152,14 +163,17 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
             ->get('innmind_rest.server.registry')
             ->getCollection('web')
             ->getResource('resource');
-        $this->c = new ResourceController;
-        $this->c->setContainer($b);
+        $this->c = new ResourceController(
+            $b->get('innmind_rest.server.storages'),
+            $b->get('router'),
+            $b->get('innmind_rest.server.registry')
+        );
         $b->get('request_stack')->push(new Request);
     }
 
     public function testCreateAction()
     {
-        $resource = new Resource;
+        $resource = new HttpResource;
         $resource->setDefinition($this->d);
         $this->assertSame(
             $resource,
@@ -170,21 +184,21 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAction()
     {
-        $resource = new Resource;
+        $resource = new HttpResource;
         $resource->setDefinition($this->d);
         $this->c->createAction($resource);
 
         $r = $this->c->getAction($this->d, $resource->get('uuid'));
 
         $this->assertInstanceOf(
-            Resource::class,
+            HttpResource::class,
             $r
         );
     }
 
     public function testIndexAction()
     {
-        $resource = new Resource;
+        $resource = new HttpResource;
         $resource->setDefinition($this->d);
         $this->c->createAction($resource);
 
@@ -199,18 +213,23 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateAction()
     {
-        $resource = new Resource;
+        $resource = new HttpResource;
         $resource->setDefinition($this->d);
         $this->c->createAction($resource);
         $id = $resource->get('uuid');
 
-        $resource = new Resource;
+        $resource = new HttpResource;
         $resource
             ->setDefinition($this->d)
             ->set('name', 'foo');
+        $updated = $this->c->updateAction($resource, $id);
         $this->assertSame(
-            $resource,
-            $this->c->updateAction($resource, $id)
+            $id,
+            $updated->get('uuid')
+        );
+        $this->assertSame(
+            'foo',
+            $updated->get('name')
         );
 
         $resource = $this->c->getAction($this->d, $id);
@@ -222,7 +241,7 @@ class ResourceControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testDeleteAction()
     {
-        $resource = new Resource;
+        $resource = new HttpResource;
         $resource->setDefinition($this->d);
         $this->c->createAction($resource);
 

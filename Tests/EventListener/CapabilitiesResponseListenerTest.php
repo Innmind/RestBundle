@@ -3,8 +3,8 @@
 namespace Innmind\RestBundle\Tests\EventListener;
 
 use Innmind\RestBundle\EventListener\CapabilitiesResponseListener;
-use Innmind\RestBundle\RouteKeys;
-use Innmind\Rest\Server\Definition\Resource as Definition;
+use Innmind\Rest\Server\Routing\RouteKeys;
+use Innmind\Rest\Server\Definition\ResourceDefinition as Definition;
 use Innmind\Rest\Server\Definition\Collection;
 use Innmind\Rest\Server\Registry;
 use Symfony\Component\Routing\Generator\UrlGenerator;

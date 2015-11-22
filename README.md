@@ -57,7 +57,7 @@ As allowed formats are handled via encoders, you declare new ones with a tag on 
 Example of the built-in `json` format:
 
 ```yaml
-innmind_rest.encoder.json:
+innmind_rest.server.serializer.encoder.json:
     class: Innmind\Rest\Server\Serializer\Encoder\JsonEncoder
     tags:
         - { name: serializer.encoder }
@@ -66,35 +66,33 @@ innmind_rest.encoder.json:
 
 ### Events
 
-In most cases the only event you'll want to alter will be [`Events::RESPONSE`](https://github.com/Innmind/rest-server/blob/master/Events.php#L18) or `Events::{STORAGE}_READ_QUERY_BUILDER` (`STORAGE` can be `DOCTRINE` or `NEO4J`) to add restriction on the query like for example the user being connected.
+In most cases the only event you'll want to alter will be `KernelEvents::RESPONSE` or `Events::{STORAGE}_READ_QUERY_BUILDER` (`STORAGE` can be `DOCTRINE` or `NEO4J`) to add restriction on the query like for example the user being connected.
 
 You can look at [`Events.php`](https://github.com/Innmind/rest-server/blob/master/Events.php) to review all the events you have at your disposition.
-
-**Note**: the event `REQUEST` is not used in this bundle, instead it relies on the symfony `KernelEvents::REQUEST`.
 
 ## Client
 
 To consume an API you need to use the `innmind_rest.client` service. Examples of usages:
 
 ```php
-use Innmind\Rest\Client\Resource;
+use Innmind\Rest\Client\HttpResource;
 
 $client = $container->get('innmind_rest.client');
 
-$resources = $client->server('http://example.com')->read('some_resource');
-$resource = $client->server('http://example.com')->read('some_resource', 42);
+$resources = $client->getServer('http://example.com')->read('some_resource');
+$resource = $client->getServer('http://example.com')->read('some_resource', 42);
 
-$toCreate = new Resource;
+$toCreate = new HttpResource;
 $toCreate->set('someProperty', 'value');
-$client->server('http://example.com')->create('some_resource', $toCreate);
+$client->getServer('http://example.com')->create('some_resource', $toCreate);
 
-$toUpdate = new Resource;
+$toUpdate = new HttpResource;
 $toUpdate
     ->set('all', 'properties')
     ->set('must', 'be set');
-$client->server('http://example.com')->update('some_resource', 42, $toUpdate);
+$client->getServer('http://example.com')->update('some_resource', 42, $toUpdate);
 
-$client->server('http://example.com')->remove('some_resource', 42);
+$client->getServer('http://example.com')->remove('some_resource', 42);
 ```
 
-You can use `$server->resources()` to view all the resources exposed by the server API; it will return an associative array with the names as keys and the definitions as values.
+You can use `$server->getResources()` to view all the resources exposed by the server API; it will return an associative array with the names as keys and the definitions as values.
