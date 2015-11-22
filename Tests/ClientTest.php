@@ -24,10 +24,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client($factory);
 
-        $this->assertInstanceOf(Server::class, $client->server('foo'));
+        $this->assertInstanceOf(Server::class, $client->getServer('foo'));
         $this->assertSame(
-            $client->server('foo'),
-            $client->server('foo')
+            $client->getServer('foo'),
+            $client->getServer('foo')
         );
     }
 }

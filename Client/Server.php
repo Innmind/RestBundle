@@ -100,7 +100,7 @@ class Server
      *
      * @return array
      */
-    public function resources()
+    public function getResources()
     {
         $keys = $this->capabilities->keys();
         $definitions = [];
