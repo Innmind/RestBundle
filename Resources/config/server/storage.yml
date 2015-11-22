@@ -8,8 +8,8 @@ services:
         arguments:
             - ~
             - @event_dispatcher
-            - @innmind_rest.entity_builder
-            - @innmind_rest.resource_builder
+            - @innmind_rest.server.entity_builder
+            - @innmind_rest.server.resource_builder
 
     innmind_rest.server.storage.abstract.doctrine:
         class: Innmind\Rest\Server\Storage\DoctrineStorage
@@ -17,5 +17,5 @@ services:
         arguments:
             - ~
             - @event_dispatcher
-            - @innmind_rest.entity_builder
-            - @innmind_rest.resource_builder
+            - @innmind_rest.server.entity_builder
+            - @innmind_rest.server.resource_builder

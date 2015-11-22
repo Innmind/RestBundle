@@ -2,7 +2,8 @@
 
 namespace Innmind\RestBundle;
 
-use Innmind\Rest\Server\RouteLoader as ServerRouteLoader;
+use Innmind\Rest\Server\Routing\RouteLoader as ServerRouteLoader;
+use Innmind\Rest\Server\Routing\RouteKeys;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -30,24 +31,14 @@ class RouteLoader extends Loader
         }
 
         $routes = $this->loader->load($resource, $type);
-        $iterator = $routes->getIterator();
 
-        foreach ($iterator as $route) {
-            $definition = $route->getDefault(RouteKeys::DEFINITION);
+        foreach ($routes as $route) {
             $route
                 ->setDefault(
                     '_controller',
                     sprintf(
-                        'InnmindRestBundle:Resource:%s',
+                        'innmind_rest.server.controller:%sAction',
                         $route->getDefault(RouteKeys::ACTION)
-                    )
-                )
-                ->setDefault(
-                    RouteKeys::DEFINITION,
-                    sprintf(
-                        '%s::%s',
-                        $definition->getCollection(),
-                        $definition
                     )
                 );
         }
@@ -60,7 +51,7 @@ class RouteLoader extends Loader
             ->setMethods('OPTIONS')
             ->setDefault(
                 '_controller',
-                'InnmindRestBundle:Resource:capabilities'
+                'innmind_rest.server.controller:capabilitiesAction'
             )
             ->setDefault(
                 RouteKeys::ACTION,

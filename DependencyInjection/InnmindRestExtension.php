@@ -2,9 +2,11 @@
 
 namespace Innmind\RestBundle\DependencyInjection;
 
+use Innmind\RestBundle\EventListener\RoutingListener;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\Config\FileLocator;
 
 class InnmindRestExtension extends Extension
@@ -29,9 +31,16 @@ class InnmindRestExtension extends Extension
         );
 
         if ($config['server']['prefix'] !== null) {
-            $container
-                ->getDefinition('innmind_rest.server.route_loader')
-                ->replaceArgument(2, $config['server']['prefix']);
+            $definition = new Definition(
+                RoutingListener::class,
+                [$config['server']['prefix']]
+            );
+            $definition->addTag('kernel.event_subscriber');
+
+            $container->setDefinition(
+                'innmind_rest.server.listener.route',
+                $definition
+            );
         }
     }
 }

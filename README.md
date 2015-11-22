@@ -57,7 +57,7 @@ As allowed formats are handled via encoders, you declare new ones with a tag on 
 Example of the built-in `json` format:
 
 ```yaml
-innmind_rest.encoder.json:
+innmind_rest.server.serializer.encoder.json:
     class: Innmind\Rest\Server\Serializer\Encoder\JsonEncoder
     tags:
         - { name: serializer.encoder }
@@ -66,11 +66,9 @@ innmind_rest.encoder.json:
 
 ### Events
 
-In most cases the only event you'll want to alter will be [`Events::RESPONSE`](https://github.com/Innmind/rest-server/blob/master/Events.php#L18) or `Events::{STORAGE}_READ_QUERY_BUILDER` (`STORAGE` can be `DOCTRINE` or `NEO4J`) to add restriction on the query like for example the user being connected.
+In most cases the only event you'll want to alter will be `KernelEvents::RESPONSE` or `Events::{STORAGE}_READ_QUERY_BUILDER` (`STORAGE` can be `DOCTRINE` or `NEO4J`) to add restriction on the query like for example the user being connected.
 
 You can look at [`Events.php`](https://github.com/Innmind/rest-server/blob/master/Events.php) to review all the events you have at your disposition.
-
-**Note**: the event `REQUEST` is not used in this bundle, instead it relies on the symfony `KernelEvents::REQUEST`.
 
 ## Client
 

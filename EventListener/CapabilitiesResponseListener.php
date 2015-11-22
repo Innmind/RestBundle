@@ -2,7 +2,7 @@
 
 namespace Innmind\RestBundle\EventListener;
 
-use Innmind\RestBundle\RouteKeys;
+use Innmind\Rest\Server\Routing\RouteKeys;
 use Innmind\Rest\Server\Registry;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
