@@ -3,6 +3,7 @@
 namespace Innmind\RestBundle\Tests\DependencyInjection;
 
 use Innmind\RestBundle\DependencyInjection\InnmindRestExtension;
+use Innmind\RestBundle\EventListener\RoutingListener;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Config\FileLocator;
@@ -62,5 +63,32 @@ class InnmindRestExtensionTest extends \PHPUnit_Framework_TestCase
             [['collections' => $expected]],
             $call[1]
         );
+    }
+
+    public function testSetPrefix()
+    {
+        $this->conf['server']['prefix'] = '/api';
+        $this->e->load([$this->conf], $this->b);
+
+        $this->assertTrue($this->b->hasDefinition('innmind_rest.server.listener.route'));
+        $this->assertSame(
+            RoutingListener::class,
+            $this->b
+                ->getDefinition('innmind_rest.server.listener.route')
+                ->getClass()
+        );
+        $this->assertSame(
+            '/api',
+            $this->b
+                ->getDefinition('innmind_rest.server.listener.route')
+                ->getArgument(0)
+        );
+    }
+
+    public function testDoesntSetPrefix()
+    {
+        $this->e->load([$this->conf], $this->b);
+
+        $this->assertFalse($this->b->hasDefinition('innmind_rest.server.listener.route'));
     }
 }
