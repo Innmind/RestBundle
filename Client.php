@@ -20,7 +20,7 @@ class Client
      *
      * @return Server
      */
-    public function server($host)
+    public function getServer($host)
     {
         return $this->server->make($host);
     }

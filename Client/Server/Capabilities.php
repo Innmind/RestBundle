@@ -35,7 +35,7 @@ class Capabilities
      *
      * @param string $name
      *
-     * @return \Innmind\Rest\Client\Definition\Resource
+     * @return \Innmind\Rest\Client\Definition\ResourceDefinition
      */
     public function get($name)
     {

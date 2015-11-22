@@ -5,7 +5,7 @@ namespace Innmind\RestBundle\Tests\Client\Server;
 use Innmind\RestBundle\Client\Server\Capabilities;
 use Innmind\RestBundle\Client\Server\Cache\InMemoryCache;
 use Innmind\Rest\Client\Definition\Loader;
-use Innmind\Rest\Client\Definition\Resource;
+use Innmind\Rest\Client\Definition\ResourceDefinition;
 use Innmind\Rest\Client\Cache\InMemoryCache as ClientInMemoryCache;
 use Innmind\UrlResolver\UrlResolver;
 use GuzzleHttp\Client as Http;
@@ -84,7 +84,7 @@ class CapabilitiesTest extends \PHPUnit_Framework_TestCase
     {
         $def = $this->c->get('foo_bar');
 
-        $this->assertInstanceOf(Resource::class, $def);
+        $this->assertInstanceOf(ResourceDefinition::class, $def);
         $this->assertSame($def, $this->c->get('foo_bar'));
 
         $this->assertSame(['foo_bar'], $this->c->keys());

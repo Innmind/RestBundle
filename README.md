@@ -75,24 +75,24 @@ You can look at [`Events.php`](https://github.com/Innmind/rest-server/blob/maste
 To consume an API you need to use the `innmind_rest.client` service. Examples of usages:
 
 ```php
-use Innmind\Rest\Client\Resource;
+use Innmind\Rest\Client\HttpResource;
 
 $client = $container->get('innmind_rest.client');
 
-$resources = $client->server('http://example.com')->read('some_resource');
-$resource = $client->server('http://example.com')->read('some_resource', 42);
+$resources = $client->getServer('http://example.com')->read('some_resource');
+$resource = $client->getServer('http://example.com')->read('some_resource', 42);
 
-$toCreate = new Resource;
+$toCreate = new HttpResource;
 $toCreate->set('someProperty', 'value');
-$client->server('http://example.com')->create('some_resource', $toCreate);
+$client->getServer('http://example.com')->create('some_resource', $toCreate);
 
-$toUpdate = new Resource;
+$toUpdate = new HttpResource;
 $toUpdate
     ->set('all', 'properties')
     ->set('must', 'be set');
-$client->server('http://example.com')->update('some_resource', 42, $toUpdate);
+$client->getServer('http://example.com')->update('some_resource', 42, $toUpdate);
 
-$client->server('http://example.com')->remove('some_resource', 42);
+$client->getServer('http://example.com')->remove('some_resource', 42);
 ```
 
-You can use `$server->resources()` to view all the resources exposed by the server API; it will return an associative array with the names as keys and the definitions as values.
+You can use `$server->getResources()` to view all the resources exposed by the server API; it will return an associative array with the names as keys and the definitions as values.

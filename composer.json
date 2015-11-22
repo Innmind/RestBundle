@@ -21,10 +21,11 @@
         "symfony/dependency-injection": "~2.7",
         "symfony/config": "~2.7",
         "symfony/framework-bundle": "~2.7",
-        "innmind/rest-client": "^1.0",
+        "innmind/rest-client": "~2",
         "symfony/filesystem": "~2.7",
         "innmind/url-resolver": "^1.0",
-        "guzzlehttp/guzzle": "~5.0"
+        "guzzlehttp/guzzle": "~5.0",
+        "symfony/console": "~2.7"
     },
     "autoload": {
         "psr-0": {
