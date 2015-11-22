@@ -3,8 +3,9 @@
 namespace Innmind\RestBundle\Tests;
 
 use Innmind\RestBundle\RouteLoader;
-use Innmind\RestBundle\RouteKeys;
-use Innmind\Rest\Server\RouteLoader as ServerRouteLoader;
+use Innmind\Rest\Server\Routing\RouteKeys;
+use Innmind\Rest\Server\Routing\RouteLoader as ServerRouteLoader;
+use Innmind\Rest\Server\Routing\RouteFactory;
 use Innmind\Rest\Server\Registry;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -39,7 +40,8 @@ class RouteLoaderTest extends \PHPUnit_Framework_TestCase
         ]);
         $server = new ServerRouteLoader(
             new EventDispatcher,
-            $registry
+            $registry,
+            new RouteFactory
         );
 
         $this->rl = new RouteLoader($server);
@@ -53,7 +55,7 @@ class RouteLoaderTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue($route->hasDefault('_controller'));
             $this->assertSame(
                 sprintf(
-                    'InnmindRestBundle:Resource:%s',
+                    'innmind_rest.server.controller:%sAction',
                     $route->getDefault(RouteKeys::ACTION)
                 ),
                 $route->getDefault('_controller')

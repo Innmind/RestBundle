@@ -1,22 +1,4 @@
 services:
-    innmind_rest.encoder.json:
-        class: Innmind\Rest\Server\Serializer\Encoder\JsonEncoder
-        tags:
-            - { name: serializer.encoder }
-            - { name: innmind_rest.server.format, format: json, mime: application/json, priority: 10 }
-
-    innmind_rest.encoder.form:
-        class: Innmind\Rest\Server\Serializer\Encoder\FormEncoder
-        tags:
-            - { name: serializer.encoder }
-            - { name: innmind_rest.server.format, format: form, mime: application/x-www-form-urlencoded }
-
-    innmind_rest.normalizer.resource:
-        class: Innmind\Rest\Server\Serializer\Normalizer\ResourceNormalizer
-        arguments: [@innmind_rest.resource_builder]
-        tags:
-            - { name: serializer.normalizer }
-
     innmind_rest.normalizer.client.collection:
         class: Innmind\Rest\Client\Serializer\Normalizer\CollectionNormalizer
         tags:

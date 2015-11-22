@@ -27,11 +27,5 @@ class InnmindRestExtension extends Extension
             'load',
             [['collections' => $config['server']['collections']]]
         );
-
-        if ($config['server']['prefix'] !== null) {
-            $container
-                ->getDefinition('innmind_rest.server.route_loader')
-                ->replaceArgument(2, $config['server']['prefix']);
-        }
     }
 }

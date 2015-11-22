@@ -1,7 +1,9 @@
 services:
     innmind_rest.server.registry:
         class: Innmind\Rest\Server\Registry
-        configurator: ["@innmind_rest.server.definition_compiler", process]
+        configurator:
+            - @innmind_rest.server.definition_compiler
+            - process
 
     innmind_rest.server.definition_compiler:
         class: Innmind\Rest\Server\DefinitionCompiler
@@ -10,23 +12,24 @@ services:
         class: Innmind\Rest\Server\CompilerPass\AccessPass
         public: false
         tags:
-            - { name: innmind_rest.server.definition.pass }
+            - { name: innmind_rest.server.definition_pass }
 
     innmind_rest.server.definition_pass.array_type:
         class: Innmind\Rest\Server\CompilerPass\ArrayTypePass
         public: false
         tags:
-            - { name: innmind_rest.server.definition.pass }
+            - { name: innmind_rest.server.definition_pass }
 
     innmind_rest.server.definition_pass.storage:
         class: Innmind\Rest\Server\CompilerPass\StorageValidationPass
         public: false
-        arguments: [@innmind_rest.server.storages]
+        arguments:
+            - @innmind_rest.server.storages
         tags:
-            - { name: innmind_rest.server.definition.pass }
+            - { name: innmind_rest.server.definition_pass }
 
     innmind_rest.server.definition_pass.sub_resource:
         class: Innmind\Rest\Server\CompilerPass\SubResourcePass
         public: false
         tags:
-            - { name: innmind_rest.server.definition.pass }
+            - { name: innmind_rest.server.definition_pass }
