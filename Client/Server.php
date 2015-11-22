@@ -4,7 +4,7 @@ namespace Innmind\RestBundle\Client;
 
 use Innmind\RestBundle\Client\Server\Capabilities;
 use Innmind\Rest\Client\Client;
-use Innmind\Rest\Client\Resource;
+use Innmind\Rest\Client\HttpResourceInterface;
 
 class Server
 {
@@ -25,7 +25,7 @@ class Server
      * @param string $name Resource name
      * @param mixed $id
      *
-     * @return \Innmind\Rest\Client\Server\Resource|\Innmind\Rest\Client\Server\Collection
+     * @return HttpResourceInterface|Collection
      */
     public function read($name, $id = null)
     {
@@ -44,11 +44,11 @@ class Server
      * Create a new resource
      *
      * @param string $name
-     * @param \Innmind\Rest\Client\Resource $resource
+     * @param HttpResourceInterface $resource
      *
      * @return Server self
      */
-    public function create($name, Resource $resource)
+    public function create($name, HttpResourceInterface $resource)
     {
         $this->client->create(
             $this->capabilities->get($name)->getUrl(),
@@ -63,11 +63,11 @@ class Server
      *
      * @param string $name
      * @param mixed $id
-     * @param \Innmind\Rest\Client\Resource $resource
+     * @param HttpResourceInterface $resource
      *
      * @return Server self
      */
-    public function update($name, $id, Resource $resource)
+    public function update($name, $id, HttpResourceInterface $resource)
     {
         $definition = $this->capabilities->get($name);
         $this->client->update(

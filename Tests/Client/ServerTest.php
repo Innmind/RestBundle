@@ -5,10 +5,10 @@ namespace Innmind\RestBundle\Tests\Client;
 use Innmind\RestBundle\Client\Server;
 use Innmind\RestBundle\Client\Server\Capabilities;
 use Innmind\Rest\Client\Client;
-use Innmind\Rest\Client\Definition\Resource as Definition;
-use Innmind\Rest\Client\Server\Resource;
+use Innmind\Rest\Client\Definition\ResourceDefinition as Definition;
+use Innmind\Rest\Client\Server\HttpResource;
 use Innmind\Rest\Client\Server\Collection;
-use Innmind\Rest\Client\Resource as ClientResource;
+use Innmind\Rest\Client\HttpResource as ClientResource;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,7 +43,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(function($url) {
                 if (substr($url, -2) === '42') {
                     return $this
-                        ->getMockBuilder(Resource::class)
+                        ->getMockBuilder(HttpResource::class)
                         ->disableOriginalConstructor()
                         ->getMock();
                 } else {
@@ -80,7 +80,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $resource = $this->s->read('foo', 42);
-        $this->assertInstanceOf(Resource::class, $resource);
+        $this->assertInstanceOf(HttpResource::class, $resource);
 
         $collection = $this->s->read('foo');
         $this->assertInstanceOf(Collection::class, $collection);
