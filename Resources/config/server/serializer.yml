@@ -2,7 +2,7 @@ services:
     innmind_rest.server.serializer.normalizer.resource:
         class: Innmind\Rest\Server\Serializer\Normalizer\ResourceNormalizer
         arguments:
-            - @innmind_rest.server.resource_builder
+            - '@innmind_rest.server.resource_builder'
         tags:
             - { name: serializer.normalizer }
 

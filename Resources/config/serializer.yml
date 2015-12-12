@@ -12,7 +12,7 @@ services:
     innmind_rest.encoder.client.response:
         class: Innmind\Rest\Client\Serializer\Encoder\ResponseEncoder
         arguments:
-            - @innmind_rest.client.decoder.delegation
+            - '@innmind_rest.client.decoder.delegation'
         tags:
             - { name: serializer.encoder }
 
@@ -23,13 +23,13 @@ services:
     innmind_rest.client.decoder.collection:
         class: Innmind\Rest\Client\Server\Decoder\CollectionDecoder
         arguments:
-            - @innmind_rest.client.resolver
+            - '@innmind_rest.client.resolver'
         tags:
             - { name: innmind_rest.client.decoder }
 
     innmind_rest.client.decoder.resource:
         class: Innmind\Rest\Client\Server\Decoder\ResourceDecoder
         arguments:
-            - @innmind_rest.client.resolver
+            - '@innmind_rest.client.resolver'
         tags:
             - { name: innmind_rest.client.decoder }
