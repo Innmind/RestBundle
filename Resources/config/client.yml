@@ -1,7 +1,8 @@
 services:
     innmind_rest.client:
         class: Innmind\RestBundle\Client
-        arguments: [@innmind_rest.client.server_factory]
+        arguments:
+            - @innmind_rest.client.server_factory
 
     innmind_rest.client.server_factory:
         class: Innmind\RestBundle\Client\ServerFactory
