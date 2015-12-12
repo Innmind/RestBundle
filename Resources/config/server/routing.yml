@@ -3,9 +3,9 @@ services:
         class: Innmind\Rest\Server\Routing\RouteLoader
         public: false
         arguments:
-            - @event_dispatcher
-            - @innmind_rest.server.registry
-            - @innmind_rest.server.route_factory
+            - '@event_dispatcher'
+            - '@innmind_rest.server.registry'
+            - '@innmind_rest.server.route_factory'
 
     innmind_rest.server.route_factory:
         class: Innmind\Rest\Server\Routing\RouteFactory
@@ -13,6 +13,6 @@ services:
     innmind_rest.server.route_loader:
         class: Innmind\RestBundle\RouteLoader
         arguments:
-            - @innmind_rest.server.routing.route_loader
+            - '@innmind_rest.server.routing.route_loader'
         tags:
             - { name: routing.loader }

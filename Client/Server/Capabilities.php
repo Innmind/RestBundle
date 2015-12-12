@@ -82,7 +82,14 @@ class Capabilities
     public function refresh()
     {
         $url = $this->resolver->resolve($this->host, '/*');
-        $response = $this->http->options($url);
+        $response = $this->http->options(
+            $url,
+            [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+            ]
+        );
 
         if (
             $response->getStatusCode() !== 200 ||

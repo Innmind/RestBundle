@@ -2,32 +2,32 @@ services:
     innmind_rest.server.listener.request:
         class: Innmind\Rest\Server\EventListener\RequestListener
         arguments:
-            - @innmind_rest.server.registry
-            - @innmind_rest.server.request_parser
+            - '@innmind_rest.server.registry'
+            - '@innmind_rest.server.request_parser'
         tags:
             - { name: kernel.event_subscriber }
 
     innmind_rest.server.listener.controller:
         class: Innmind\Rest\Server\EventListener\ControllerListener
         arguments:
-            - @innmind_rest.server.validator
-            - @innmind_rest.server.request_parser
+            - '@innmind_rest.server.validator'
+            - '@innmind_rest.server.request_parser'
         tags:
             - { name: kernel.event_subscriber }
 
     innmind_rest.server.listener.view.collection:
         class: Innmind\Rest\Server\EventListener\Response\CollectionListener
         arguments:
-            - @router
-            - @innmind_rest.server.route_factory
+            - '@router'
+            - '@innmind_rest.server.route_factory'
         tags:
             - { name: kernel.event_subscriber }
 
     innmind_rest.server.listener.view.create:
         class: Innmind\Rest\Server\EventListener\Response\CreateListener
         arguments:
-            - @router
-            - @innmind_rest.server.route_factory
+            - '@router'
+            - '@innmind_rest.server.route_factory'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -39,49 +39,49 @@ services:
     innmind_rest.server.listener.view.options:
         class: Innmind\Rest\Server\EventListener\Response\OptionsListener
         arguments:
-            - @router
-            - @innmind_rest.server.route_factory
+            - '@router'
+            - '@innmind_rest.server.route_factory'
         tags:
             - { name: kernel.event_subscriber }
 
     innmind_rest.server.listener.view.resource:
         class: Innmind\Rest\Server\EventListener\Response\ResourceListener
         arguments:
-            - @router
-            - @innmind_rest.server.route_factory
-            - @serializer
-            - @innmind_rest.server.formats
+            - '@router'
+            - '@innmind_rest.server.route_factory'
+            - '@serializer'
+            - '@innmind_rest.server.formats'
         tags:
             - { name: kernel.event_subscriber }
 
     innmind_rest.server.listener.pagination:
         class: Innmind\Rest\Server\EventListener\PaginationListener
         arguments:
-            - @request_stack
-            - @router
-            - @innmind_rest.server.route_factory
-            - @innmind_rest.server.paginator
+            - '@request_stack'
+            - '@router'
+            - '@innmind_rest.server.route_factory'
+            - '@innmind_rest.server.paginator'
         tags:
             - { name: kernel.event_subscriber }
 
     innmind_rest.server.listener.storage.create:
         class: Innmind\Rest\Server\EventListener\StorageCreateListener
         arguments:
-            - @property_accessor
+            - '@property_accessor'
         tags:
             - { name: kernel.event_subscriber }
 
     innmind_rest.server.listener.exception:
         class: Innmind\Rest\Server\EventListener\ExceptionListener
         arguments:
-            - @logger
+            - '@logger'
         tags:
             - { name: kernel.event_subscriber }
 
     innmind_rest.server.listener.view.capabilities:
         class: Innmind\RestBundle\EventListener\CapabilitiesResponseListener
         arguments:
-            - @router
-            - @innmind_rest.server.registry
+            - '@router'
+            - '@innmind_rest.server.registry'
         tags:
             - { name: kernel.event_subscriber }
