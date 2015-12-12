@@ -7,15 +7,15 @@ services:
         abstract: true
         arguments:
             - ~
-            - @event_dispatcher
-            - @innmind_rest.server.entity_builder
-            - @innmind_rest.server.resource_builder
+            - '@event_dispatcher'
+            - '@innmind_rest.server.entity_builder'
+            - '@innmind_rest.server.resource_builder'
 
     innmind_rest.server.storage.abstract.doctrine:
         class: Innmind\Rest\Server\Storage\DoctrineStorage
         abstract: true
         arguments:
             - ~
-            - @event_dispatcher
-            - @innmind_rest.server.entity_builder
-            - @innmind_rest.server.resource_builder
+            - '@event_dispatcher'
+            - '@innmind_rest.server.entity_builder'
+            - '@innmind_rest.server.resource_builder'
