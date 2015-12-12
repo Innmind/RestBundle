@@ -1,8 +1,8 @@
 # RestBundle
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Innmind/RestBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/RestBundle/?branch=develop)
-[![Code Coverage](https://scrutinizer-ci.com/g/Innmind/RestBundle/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/RestBundle/?branch=develop)
-[![Build Status](https://scrutinizer-ci.com/g/Innmind/RestBundle/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/RestBundle/build-status/develop)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Innmind/RestBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Innmind/RestBundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/Innmind/RestBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Innmind/RestBundle/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/Innmind/RestBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Innmind/RestBundle/build-status/master)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d541a4bc-55bb-4907-9d5d-81dfa839563d/big.png)](https://insight.sensiolabs.com/projects/d541a4bc-55bb-4907-9d5d-81dfa839563d)
 
