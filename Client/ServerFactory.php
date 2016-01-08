@@ -8,7 +8,7 @@ use Innmind\Rest\Client\Validator;
 use Innmind\Rest\Client\Serializer\Normalizer\ResourceNormalizer;
 use Innmind\UrlResolver\ResolverInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use GuzzleHttp\Client as Http;
 

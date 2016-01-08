@@ -6,7 +6,7 @@ use Innmind\Rest\Client\Definition\Loader;
 use Innmind\Rest\Client\Definition\Builder;
 use Innmind\Rest\Client\Cache\FileCache;
 use Innmind\UrlResolver\ResolverInterface;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use GuzzleHttp\Client as Http;
 
 class LoaderFactory
